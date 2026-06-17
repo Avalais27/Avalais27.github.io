@@ -26,7 +26,7 @@
       --green:   #277227;          /* Q1 badge 文字 */
       --badge-bg:#E6EDF8;          /* 期刊 badge 背景 */
       --photo:   160px;            /* 头像直径 */
-      --thumb:   96px;             /* 论文缩略图宽度 */
+      --thumb:   150px;            /* 论文缩略图宽度（流程图需要更多空间） */
       --max:     800px;            /* 页面最大宽度 */
     }
 
@@ -184,15 +184,18 @@
       border-left-color: var(--blue);
     }
 
-    /* 论文缩略图区域 */
+    /* 论文缩略图区域
+       两张流程图实际比例接近 16:10，这里把容器比例改过来，
+       减少 contain 模式下的留白；宽度加大到 150px 让图更清楚。 */
     .thumb { width: var(--thumb); flex-shrink: 0; margin-top: 2px; }
     .thumb img {
-      width: 100%; aspect-ratio: 4/3; object-fit: cover;
+      width: 100%; aspect-ratio: 16/10; object-fit: contain;
+      background: #FFFFFF;
       border-radius: 4px; border: 1px solid var(--rule); display: block;
     }
     /* 无图时的占位框，有图后把 thumb-ph div 替换为 img 标签 */
     .thumb-ph {
-      width: 100%; aspect-ratio: 4/3; border-radius: 4px;
+      width: 100%; aspect-ratio: 16/10; border-radius: 4px;
       border: 1px solid var(--rule); background: #F5F6F8;
       display: flex; align-items: center; justify-content: center;
     }
@@ -289,7 +292,7 @@
          有照片后：删掉下面的 <div class="monogram">，改为：
          <img class="photo" src="photo.jpg" alt="Haoming Zhu" />
          把 photo.jpg 和 index.html 放在同一目录上传即可。 -->
-    <img class="photo" src="photo.jpg" alt="Haoming Zhu" />
+    <div class="monogram" aria-hidden="true">朱</div>
 
     <div>
       <!-- 【姓名】西方顺序：名在前，姓在后 -->
@@ -303,7 +306,7 @@
       <div class="aff">
         Undergraduate Researcher · School of Science<br />
         Sun Yat-sen University, Shenzhen Campus<br />
-        Advised by <a href="#">Prof. Ge Xin</a> &ensp;·&ensp; Class of 2027
+        Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank">Prof. Ge Xin</a> &ensp;·&ensp; Class of 2027
       </div>
 
       <!-- 【个人简介】
@@ -316,10 +319,11 @@
       </p>
 
       <!-- 【导航链接】
-           把 YOUR_EMAIL 替换成你的邮箱（已填入）
+           邮箱用文字防爬格式显示（@ 替换成 [at]），不做成可点击的 mailto 链接，
+           避免爬虫脚本直接扫描抓取邮箱地址。
            Scholar 链接有了之后取消注释 -->
       <nav class="nav" aria-label="Links">
-        <a href="mailto:zhuhm27@mail2.sysu.edu.cn">✉&thinsp;Email</a>
+        <span style="color: var(--blue); display: inline-flex; align-items: center; gap: 4px;">✉&thinsp;zhuhm27&thinsp;[at]&thinsp;mail2.sysu.edu.cn</span>
         <a href="https://github.com/Avalais27" target="_blank">⌥&thinsp;GitHub</a>
         <!-- <a href="https://scholar.google.com/..." target="_blank">⬡&thinsp;Scholar</a> -->
       </nav>
@@ -338,19 +342,10 @@
 
     <div class="papers">
 
-      <!-- ── 论文 1（已发表）──────────────────────────────
-           缩略图：把 thumb-ph div 替换为
-           <img src="images/paper_oct.png" alt="OCT figure">
-           建议截论文里一张有代表性的图，存为 images/paper_oct.png -->
+      <!-- ── 论文 1（已发表）────────────────────────────── -->
       <div class="paper">
         <div class="thumb">
-          <div class="thumb-ph">
-            <!-- 占位图标，有图后删掉整个 thumb-ph div -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.2">
-              <path d="M3 12 Q6 6 12 12 Q18 18 21 12" />
-              <circle cx="12" cy="12" r="1.5" fill="#141414"/>
-            </svg>
-          </div>
+          <img src="cover1.jpg" alt="Taylor-Hann hybrid window flowchart" />
         </div>
         <div class="pinfo">
           <!-- 论文标题：点击跳转 DOI -->
@@ -361,7 +356,7 @@
           </div>
           <!-- 作者顺序：自己用 <strong> 加粗，其余正常显示 -->
           <div class="pauthors">
-            <strong>Haoming Zhu</strong>, Weiting Chen, Ruihan Ye, Jin He, Yilin Zhong, Zikun Qi, Qiaozhou Xiong, Yongsheng Huang, Linbo Liu, Xin Ge
+            <strong>Haoming Zhu</strong>, Zikun Qi, Xin Ge
           </div>
           <!-- 期刊信息 + 质量 badge -->
           <div class="pvenue">
@@ -382,12 +377,7 @@
            投出去并接收后：删掉 class 里的 wip，补充期刊和链接 -->
       <div class="paper wip" aria-hidden="true">
         <div class="thumb">
-          <div class="thumb-ph">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.2">
-              <rect x="4" y="4" width="16" height="16" rx="2"/>
-              <path d="M4 10h16M10 20V10"/>
-            </svg>
-          </div>
+          <img src="cover2.jpg" alt="GM-RPM speckle suppression flowchart" />
         </div>
         <div class="pinfo">
           <div class="ptitle">
