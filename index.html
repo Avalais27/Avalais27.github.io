@@ -52,7 +52,7 @@
       inset: 0;
       z-index: -1;
       pointer-events: none;
-      background-color: #F3F3F1;
+      background-color: #E9F1FA;
       background-image:
         repeating-linear-gradient(
           100deg,
@@ -92,10 +92,10 @@
     .header, .section, footer {
       animation: fadeUp 0.65s ease both;
     }
-    .header { animation-delay: 0.05s; }
-    .section:nth-of-type(1) { animation-delay: 0.16s; }
-    .section:nth-of-type(2) { animation-delay: 0.26s; }
-    footer { animation-delay: 0.36s; }
+    .header { animation-delay: 0.1s; }
+    .section:nth-of-type(1) { animation-delay: 0.5s; }
+    .section:nth-of-type(2) { animation-delay: 1.0s; }
+    footer { animation-delay: 1.5s; }
     @media (prefers-reduced-motion: reduce) {
       .header, .section, footer { animation: none; }
     }
@@ -308,6 +308,18 @@
     .edu-d strong { display: block; font-weight: 500; color: var(--ink); }
     .edu-d span { color: var(--muted); font-size: 0.83rem; }
 
+    /* 校徽：小尺寸，放在对应教育经历下方，低调点缀 */
+    .edu-logo-row {
+      padding: 14px 0 4px;
+      display: flex;
+    }
+    .edu-logo {
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      opacity: 0.92;
+    }
+
     /* Section 之间的间距 */
     .section { margin-bottom: 44px; }
 
@@ -320,11 +332,42 @@
     footer a { color: inherit; text-decoration: none; }
     footer a:hover { color: var(--muted); }
 
-    /* ── 手机适配（屏幕宽度 < 560px） ────────────────── */
+    /* ── 语言切换按钮：固定在卡片右上角 ──────────────────── */
+    .lang-toggle {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      display: flex;
+      background: #F0F0EE;
+      border-radius: 99px;
+      padding: 3px;
+      gap: 2px;
+      z-index: 2;
+    }
+    .lang-btn {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.74rem;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 99px;
+      border: none;
+      background: transparent;
+      color: var(--faint);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .lang-btn.active {
+      background: var(--white);
+      color: var(--blue);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+    .lang-btn:hover:not(.active) { color: var(--muted); }
+
     @media (max-width: 560px) {
+      .lang-toggle { top: 16px; right: 16px; }
       body { padding: 20px 12px 40px; }
       .page { padding: 36px 24px 48px; border-radius: 14px; }
-      .header { flex-direction: column; align-items: center; text-align: center; }
+      .header { flex-direction: column; align-items: center; text-align: center; margin-top: 30px; }
       .monogram, .photo { width: 100px; height: 100px; font-size: 2.8rem; }
       h1 { font-size: 1.9rem; }
       .nav { justify-content: center; }
@@ -340,6 +383,12 @@
 
 <div class="page">
 
+  <!-- 【语言切换】点击 EN/中文 切换页面文字 -->
+  <div class="lang-toggle" role="group" aria-label="Language toggle">
+    <button type="button" class="lang-btn active" data-lang-btn="en" onclick="setLang('en')">EN</button>
+    <button type="button" class="lang-btn" data-lang-btn="zh" onclick="setLang('zh')">中文</button>
+  </div>
+
   <!-- ══════════════ 顶部信息区 ══════════════ -->
   <header class="header">
 
@@ -354,16 +403,21 @@
       <div class="subtitle">朱浩鸣</div>
 
       <!-- 【机构信息】
-           如需修改导师称谓或院系名称，改这里 -->
-      <div class="aff">
+           data-en-html / data-zh-html 供语言切换脚本读取，
+           如需修改导师称谓或院系名称，两处都要改 -->
+      <div class="aff"
+        data-en-html='Undergraduate Researcher · School of Science<br />Sun Yat-sen University, Shenzhen Campus<br />Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank">Prof. Ge Xin</a> &ensp;·&ensp; Class of 2027'
+        data-zh-html='本科生研究者 · 理学院<br />中山大学深圳校区<br />指导老师：<a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank">葛昕教授</a> &ensp;·&ensp; 2027 届'>
         Undergraduate Researcher · School of Science<br />
         Sun Yat-sen University, Shenzhen Campus<br />
         Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank">Prof. Ge Xin</a> &ensp;·&ensp; Class of 2027
       </div>
 
       <!-- 【个人简介】
-           一段话说清楚：做什么研究、感兴趣什么方向 -->
-      <p class="bio">
+           同样用 data-en-html / data-zh-html，因为段落里嵌了 OCT 的链接 -->
+      <p class="bio"
+        data-en-html='I work on computational optical imaging, with a focus on signal processing algorithms for <a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank">optical coherence tomography</a> (OCT)—including spectral windowing for sidelobe suppression and statistical frameworks for speckle noise reduction. I am interested in graduate programs in computational imaging and biomedical photonics.'
+        data-zh-html='我的研究方向是计算光学成像，重点关注<a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank">光学相干层析成像</a>（OCT）的信号处理算法，包括用于旁瓣抑制的频谱窗函数方法，以及用于斑点噪声抑制的统计框架。我对计算成像和生物医学光子学方向的研究生项目感兴趣。'>
         I work on computational optical imaging, with a focus on signal processing algorithms
         for <a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank">optical coherence tomography</a> (OCT)—including spectral windowing for sidelobe
         suppression and statistical frameworks for speckle noise reduction. I am interested
@@ -385,8 +439,10 @@
 
   <!-- ══════════════ 研究 / 论文 ══════════════ -->
   <section class="section" id="research">
-    <div class="label">Research</div>
-    <p class="note">
+    <div class="label" data-en="Research" data-zh="研究">Research</div>
+    <p class="note"
+      data-en-html='My work sits at the intersection of Fourier optics and statistical signal processing, with applications in biomedical imaging. <span style="color:var(--ink)">Representative publications are listed below.</span>'
+      data-zh-html='我的研究工作融合了傅里叶光学和统计信号处理，并应用于生物医学成像领域。<span style="color:var(--ink)">以下列出部分代表性论文。</span>'>
       My work sits at the intersection of Fourier optics and statistical signal processing,
       with applications in biomedical imaging.
       <span style="color:var(--ink)">Representative publications are listed below.</span>
@@ -453,16 +509,22 @@
 
   <!-- ══════════════ 教育经历 ══════════════ -->
   <section class="section" id="education">
-    <div class="label">Education</div>
+    <div class="label" data-en="Education" data-zh="教育经历">Education</div>
     <div class="edu-rows">
 
       <div class="edu-row">
         <div class="edu-yr">2023 – 2027</div>
         <div class="edu-d">
-          <strong>B.Sc. in Physics</strong>
+          <strong data-en="B.Sc. in Physics" data-zh="物理学 学士">B.Sc. in Physics</strong>
           <!-- 如需添加排名，改为：GPA 3.94 / 4.0 &ensp;·&ensp; Rank 12 / 50 -->
-          <span>Sun Yat-sen University (Shenzhen) &ensp;·&ensp; GPA 3.94 / 4.0</span>
+          <span data-en="Sun Yat-sen University (Shenzhen) · GPA 3.94 / 4.0"
+                data-zh="中山大学（深圳）· GPA 3.94 / 4.0">Sun Yat-sen University (Shenzhen) &ensp;·&ensp; GPA 3.94 / 4.0</span>
         </div>
+      </div>
+
+      <!-- 【校徽】放在 2023–2027 这条记录下方，小尺寸不抢主角 -->
+      <div class="edu-logo-row">
+        <img src="sysu.jpg" alt="Sun Yat-sen University emblem" class="edu-logo" />
       </div>
 
       <!-- 录取研究生后取消注释并填写信息：
@@ -482,10 +544,30 @@
   <!-- ══════════════ 页脚 ══════════════ -->
   <!-- 右侧 Source 链接指向仓库，方便别人查看源码（学术圈常见做法） -->
   <footer>
-    <span>Last updated June 2026</span>
+    <span data-en="Last updated June 2026" data-zh="最近更新：2026 年 6 月">Last updated June 2026</span>
     <a href="https://github.com/Avalais27/Avalais27.github.io">Source</a>
   </footer>
 
 </div>
+
+<!-- ══════════════ 语言切换脚本 ══════════════
+     原理：纯文本节点用 data-en / data-zh 存中英文，
+     含链接等标签的节点用 data-en-html / data-zh-html 存整段 HTML，
+     点击按钮后按对应属性整体替换内容。 -->
+<script>
+  function setLang(lang) {
+    document.querySelectorAll('[data-en]').forEach(function (el) {
+      el.textContent = lang === 'zh' ? el.getAttribute('data-zh') : el.getAttribute('data-en');
+    });
+    document.querySelectorAll('[data-en-html]').forEach(function (el) {
+      el.innerHTML = lang === 'zh' ? el.getAttribute('data-zh-html') : el.getAttribute('data-en-html');
+    });
+    document.querySelectorAll('.lang-btn').forEach(function (btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-lang-btn') === lang);
+    });
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  }
+</script>
+
 </body>
 </html>
