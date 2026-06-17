@@ -308,15 +308,13 @@
     .edu-d strong { display: block; font-weight: 500; color: var(--ink); }
     .edu-d span { color: var(--muted); font-size: 0.83rem; }
 
-    /* 校徽：小尺寸，放在对应教育经历下方，低调点缀 */
-    .edu-logo-row {
-      padding: 14px 0 4px;
-      display: flex;
-    }
+    /* 校徽：跟学位信息同属一栏，小尺寸低调点缀 */
     .edu-logo {
-      width: 52px;
-      height: 52px;
+      display: block;
+      width: 44px;
+      height: 44px;
       object-fit: contain;
+      margin-top: 10px;
       opacity: 0.92;
     }
 
@@ -519,12 +517,9 @@
           <!-- 如需添加排名，改为：GPA 3.94 / 4.0 &ensp;·&ensp; Rank 12 / 50 -->
           <span data-en="Sun Yat-sen University (Shenzhen) · GPA 3.94 / 4.0"
                 data-zh="中山大学（深圳）· GPA 3.94 / 4.0">Sun Yat-sen University (Shenzhen) &ensp;·&ensp; GPA 3.94 / 4.0</span>
+          <!-- 校徽：放在同一栏内部，紧跟在学位信息下方 -->
+          <img src="sysu.jpg" alt="Sun Yat-sen University emblem" class="edu-logo" />
         </div>
-      </div>
-
-      <!-- 【校徽】放在 2023–2027 这条记录下方，小尺寸不抢主角 -->
-      <div class="edu-logo-row">
-        <img src="sysu.jpg" alt="Sun Yat-sen University emblem" class="edu-logo" />
       </div>
 
       <!-- 录取研究生后取消注释并填写信息：
