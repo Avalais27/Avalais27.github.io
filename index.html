@@ -86,13 +86,13 @@
       user-select: none;
     }
 
-    /* 姓名：EB Garamond 斜体，欧美学术主页常见的高级感处理 */
+    /* 姓名：改为正常无衬线字体（不再用斜体衬线），更简洁 */
     h1 {
-      font-family: 'EB Garamond', Georgia, serif;
-      font-style: italic;
-      font-weight: 400;
-      font-size: 2.35rem;
-      line-height: 1.15;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 2.1rem;
+      line-height: 1.2;
       letter-spacing: -0.01em;
       color: var(--ink);
       margin-bottom: 4px;
@@ -354,9 +354,11 @@
               A Low-complexity Taylor-based hybrid multi-window method for OCT sidelobe suppression
             </a>
           </div>
-          <!-- 作者顺序：自己用 <strong> 加粗，其余正常显示 -->
+          <!-- 作者顺序：自己用 <strong> 加粗，其余正常显示
+               原始作者标注含单位上标(a,b,c,d)和通讯作者星号(*)，这里全部去掉，只留姓名 -->
           <div class="pauthors">
-            <strong>Haoming Zhu</strong>, Zikun Qi, Xin Ge
+            <strong>Haoming Zhu</strong>, Weiting Chen, Ruihan Ye, Jin He, Yilin Zhong,
+            Zikun Qi, Qiaozhou Xiong, Yongsheng Huang, Linbo Liu, and Xin Ge
           </div>
           <!-- 期刊信息 + 质量 badge -->
           <div class="pvenue">
