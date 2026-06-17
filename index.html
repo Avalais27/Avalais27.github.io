@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zhu Haoming</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --white:   #FFFFFF;
+      --ink:     #141414;
+      --muted:   #555555;
+      --faint:   #8A8A8A;
+      --rule:    #EBEBEB;
+      --blue:    #1B52AD;
+      --blue-bg: rgba(27, 82, 173, 0.04);
+      --green-bg:#E8F4E8;
+      --green:   #277227;
+      --badge-bg:#E6EDF8;
+      --photo:   160px;
+      --thumb:   96px;
+      --max:     800px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 15px; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 400;
+      background: var(--white);
+      color: var(--ink);
+      line-height: 1.7;
+      padding: 0 24px;
+    }
+
+    .page {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 56px 0 72px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+      margin-bottom: 52px;
+    }
+
+    .photo {
+      width: var(--photo);
+      height: var(--photo);
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--rule);
+    }
+    .monogram {
+      width: var(--photo);
+      height: var(--photo);
+      border-radius: 50%;
+      border: 1px solid var(--rule);
+      flex-shrink: 0;
+      background: #F0F3F8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'EB Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 3.6rem;
+      color: #9AAAC2;
+      user-select: none;
+    }
+
+    h1 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 2.35rem;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 10px;
+    }
+
+    .aff {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+    .aff a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--rule); }
+    .aff a:hover { color: var(--blue); border-color: var(--blue); }
+
+    .bio {
+      font-size: 0.91rem;
+      color: var(--ink);
+      line-height: 1.72;
+      margin-bottom: 18px;
+    }
+    .bio a { color: var(--blue); text-decoration: none; }
+    .bio a:hover { text-decoration: underline; }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      column-gap: 18px;
+      row-gap: 4px;
+      font-size: 0.83rem;
+    }
+    .nav a {
+      color: var(--blue);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav a:hover { text-decoration: underline; }
+
+    /* Section label */
+    .label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--faint);
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 8px;
+    }
+
+    .note {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    /* Paper rows */
+    .papers { display: flex; flex-direction: column; }
+
+    .paper {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      padding: 14px 0 14px 10px;
+      margin-left: -10px;
+      border-radius: 6px;
+      border-left: 2px solid transparent;
+      transition: background 0.18s ease, border-color 0.18s ease;
+    }
+    .paper:hover {
+      background: var(--blue-bg);
+      border-left-color: var(--blue);
+    }
+
+    .thumb { width: var(--thumb); flex-shrink: 0; margin-top: 2px; }
+    .thumb img {
+      width: 100%; aspect-ratio: 4/3; object-fit: cover;
+      border-radius: 4px; border: 1px solid var(--rule); display: block;
+    }
+    .thumb-ph {
+      width: 100%; aspect-ratio: 4/3; border-radius: 4px;
+      border: 1px solid var(--rule); background: #F5F6F8;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .thumb-ph svg { width: 22px; height: 22px; opacity: 0.18; }
+
+    .pinfo { flex: 1; min-width: 0; }
+
+    .ptitle {
+      font-size: 0.93rem; font-weight: 500;
+      line-height: 1.45; margin-bottom: 3px;
+    }
+    .ptitle a { color: var(--ink); text-decoration: none; }
+    .ptitle a:hover { color: var(--blue); }
+
+    .pauthors {
+      font-size: 0.80rem; color: var(--muted);
+      margin-bottom: 3px; line-height: 1.5;
+    }
+    .pauthors strong { color: var(--ink); font-weight: 600; }
+
+    .pvenue {
+      font-size: 0.80rem; color: var(--muted);
+      margin-bottom: 7px; line-height: 1.4;
+      display: flex; align-items: center; flex-wrap: wrap; gap: 5px;
+    }
+    .pvenue em { font-style: italic; }
+
+    .badge {
+      display: inline-block; font-size: 0.66rem; font-weight: 600;
+      letter-spacing: 0.03em; padding: 1px 5px;
+      border-radius: 3px; line-height: 1.6;
+    }
+    .badge-q1  { background: var(--green-bg); color: var(--green); }
+    .badge-jnl { background: var(--badge-bg); color: var(--blue); }
+    .badge-wip { background: #F0F0EE; color: #999; }
+
+    .plinks { display: flex; gap: 12px; flex-wrap: wrap; }
+    .plinks a { font-size: 0.77rem; color: var(--blue); text-decoration: none; }
+    .plinks a:hover { text-decoration: underline; }
+
+    .paper.wip { opacity: 0.55; pointer-events: none; }
+    .paper.wip:hover { background: none; border-color: transparent; }
+
+    /* Education */
+    .edu-rows { display: flex; flex-direction: column; }
+    .edu-row {
+      display: flex; gap: 24px; padding: 11px 0;
+      border-bottom: 1px solid var(--rule); font-size: 0.88rem;
+    }
+    .edu-row:last-child { border-bottom: none; }
+    .edu-yr { color: var(--faint); min-width: 90px; flex-shrink: 0; padding-top: 1px; }
+    .edu-d strong { display: block; font-weight: 500; color: var(--ink); }
+    .edu-d span { color: var(--muted); font-size: 0.83rem; }
+
+    .section { margin-bottom: 44px; }
+
+    footer {
+      padding-top: 24px; border-top: 1px solid var(--rule);
+      font-size: 0.76rem; color: #BBBBBB;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    footer a { color: inherit; text-decoration: none; }
+    footer a:hover { color: var(--muted); }
+
+    @media (max-width: 560px) {
+      .header { flex-direction: column; align-items: center; text-align: center; }
+      .monogram, .photo { width: 100px; height: 100px; font-size: 2.8rem; }
+      h1 { font-size: 1.9rem; }
+      .nav { justify-content: center; }
+      .thumb { display: none; }
+      .edu-row { flex-direction: column; gap: 2px; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="page">
+
+  <header class="header">
+    <!-- Replace with: <img class="photo" src="photo.jpg" alt="Zhu Haoming" /> -->
+    <div class="monogram" aria-hidden="true">朱</div>
+    <div>
+      <h1>Zhu Haoming</h1>
+      <div class="subtitle">朱浩鸣</div>
+      <div class="aff">
+        Undergraduate Researcher · School of Science<br />
+        Sun Yat-sen University, Shenzhen Campus<br />
+        Advised by <a href="#">Assoc. Prof. Ge Xin</a> &ensp;·&ensp; Class of 2027
+      </div>
+      <p class="bio">
+        I work on computational optical imaging, with a focus on signal processing algorithms
+        for <a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank">optical coherence tomography</a> (OCT)—including spectral windowing for sidelobe
+        suppression and statistical frameworks for speckle noise reduction. I am interested
+        in graduate programs in computational imaging and biomedical photonics, with a
+        long-term goal of a PhD abroad.
+      </p>
+      <nav class="nav" aria-label="Links">
+        <a href="mailto:YOUR_EMAIL">✉&thinsp;Email</a>
+        <a href="cv.pdf" target="_blank">↓&thinsp;CV</a>
+        <a href="https://github.com/Avalais27" target="_blank">⌥&thinsp;GitHub</a>
+        <!-- <a href="https://scholar.google.com/..." target="_blank">⬡&thinsp;Scholar</a> -->
+      </nav>
+    </div>
+  </header>
+
+  <section class="section" id="research">
+    <div class="label">Research</div>
+    <p class="note">
+      My work sits at the intersection of Fourier optics and statistical signal processing,
+      with applications in biomedical imaging.
+      <span style="color:var(--ink)">Representative publications are listed below.</span>
+    </p>
+    <div class="papers">
+
+      <div class="paper">
+        <div class="thumb">
+          <!-- Replace with: <img src="images/paper_oct.png" alt=""> -->
+          <div class="thumb-ph">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.2">
+              <path d="M3 12 Q6 6 12 12 Q18 18 21 12" /><circle cx="12" cy="12" r="1.5" fill="#141414"/>
+            </svg>
+          </div>
+        </div>
+        <div class="pinfo">
+          <div class="ptitle">
+            <a href="https://doi.org/10.1016/j.optlastec.2026.115732" target="_blank">
+              A Low-complexity Taylor-based hybrid multi-window method for OCT sidelobe suppression
+            </a>
+          </div>
+          <div class="pauthors">
+            <strong>Zhu Haoming</strong>, Qi Zikun, Ge Xin
+          </div>
+          <div class="pvenue">
+            <em>Optics &amp; Laser Technology</em>, 2026
+            <span class="badge badge-q1">JCR Q1</span>
+            <span class="badge badge-jnl">IF 5.0</span>
+          </div>
+          <div class="plinks">
+            <a href="https://doi.org/10.1016/j.optlastec.2026.115732" target="_blank">[DOI]</a>
+            <a href="#">[PDF]</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="paper wip" aria-hidden="true">
+        <div class="thumb">
+          <div class="thumb-ph">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.2">
+              <rect x="4" y="4" width="16" height="16" rx="2"/>
+              <path d="M4 10h16M10 20V10"/>
+            </svg>
+          </div>
+        </div>
+        <div class="pinfo">
+          <div class="ptitle">
+            GM-RPM: A Grouped-Min Random Phase Modulation Framework
+            for Speckle Suppression in Coherent Imaging
+          </div>
+          <div class="pauthors"><strong>Zhu Haoming</strong>, Ge Xin</div>
+          <div class="pvenue"><span class="badge badge-wip">In Preparation</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="education">
+    <div class="label">Education</div>
+    <div class="edu-rows">
+      <div class="edu-row">
+        <div class="edu-yr">2023 – 2027</div>
+        <div class="edu-d">
+          <strong>B.Sc. in Physics</strong>
+          <span>Sun Yat-sen University (Shenzhen) &ensp;·&ensp; GPA 3.94 / 4.0 &ensp;·&ensp; Rank 12 / 50</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Last updated June 2026</span>
+    <a href="https://github.com/Avalais27/Avalais27.github.io">Source</a>
+  </footer>
+
+</div>
+</body>
+</html>
