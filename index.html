@@ -36,17 +36,68 @@
     body {
       font-family: 'Inter', system-ui, sans-serif;
       font-weight: 400;
-      background: var(--white);
       color: var(--ink);
       line-height: 1.7;
-      padding: 0 24px;
+      padding: 40px 20px 60px;
+      min-height: 100vh;
+      overflow-x: hidden; /* 防止背后的动效层撑出横向滚动条 */
     }
 
-    /* ── 页面容器 ─────────────────────────────────────── */
+    /* ── 背景动效层 ───────────────────────────────────────
+       两侧留白不再是空白，而是放一层极淡的干涉条纹背景，
+       呼应 OCT/光学干涉的研究主题，并缓慢漂移营造高级感。
+       opacity 很低，不会干扰阅读，只在卡片两侧的空白处可见。 */
+    .bg-fx {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-color: #F3F3F1;
+      background-image:
+        repeating-linear-gradient(
+          100deg,
+          rgba(27, 82, 173, 0.06) 0px,
+          rgba(27, 82, 173, 0.06) 1px,
+          transparent 1px,
+          transparent 34px
+        );
+      animation: fringeDrift 16s linear infinite;
+    }
+    @keyframes fringeDrift {
+      from { background-position: 0 0; }
+      to   { background-position: 340px 0; } /* 10 个条纹周期，循环无缝衔接 */
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bg-fx { animation: none; } /* 尊重用户的“减少动态效果”系统设置 */
+    }
+
+    /* ── 页面容器：改为悬浮卡片，搭配阴影和圆角 ──────────── */
     .page {
       max-width: var(--max);
       margin: 0 auto;
-      padding: 56px 0 72px;
+      background: var(--white);
+      border-radius: 18px;
+      box-shadow:
+        0 1px 2px rgba(20, 20, 20, 0.04),
+        0 16px 48px rgba(20, 20, 20, 0.07);
+      padding: 56px 56px 64px;
+      position: relative;
+    }
+
+    /* ── 入场动效：卡片整体 + 各 section 依次淡入上浮 ───── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .header, .section, footer {
+      animation: fadeUp 0.65s ease both;
+    }
+    .header { animation-delay: 0.05s; }
+    .section:nth-of-type(1) { animation-delay: 0.16s; }
+    .section:nth-of-type(2) { animation-delay: 0.26s; }
+    footer { animation-delay: 0.36s; }
+    @media (prefers-reduced-motion: reduce) {
+      .header, .section, footer { animation: none; }
     }
 
     /* ── 顶部 header：头像左，文字右 ─────────────────── */
@@ -271,6 +322,8 @@
 
     /* ── 手机适配（屏幕宽度 < 560px） ────────────────── */
     @media (max-width: 560px) {
+      body { padding: 20px 12px 40px; }
+      .page { padding: 36px 24px 48px; border-radius: 14px; }
       .header { flex-direction: column; align-items: center; text-align: center; }
       .monogram, .photo { width: 100px; height: 100px; font-size: 2.8rem; }
       h1 { font-size: 1.9rem; }
@@ -282,6 +335,9 @@
 </head>
 
 <body>
+<!-- 背景动效层：极淡的漂移干涉条纹，呼应 OCT 研究主题 -->
+<div class="bg-fx" aria-hidden="true"></div>
+
 <div class="page">
 
   <!-- ══════════════ 顶部信息区 ══════════════ -->
