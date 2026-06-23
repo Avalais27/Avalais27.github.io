@@ -330,11 +330,11 @@
     footer a { color: inherit; text-decoration: none; }
     footer a:hover { color: var(--muted); }
 
-    /* ── 语言切换按钮：固定在卡片右上角 ──────────────────── */
-    .lang-toggle {
+    /* ── 顶部切换控件公用样式：Home/News 与 EN/中文 共用同一套
+       胶囊外观，分别固定在卡片左上角和右上角 ──────────────── */
+    .page-toggle, .lang-toggle {
       position: absolute;
       top: 24px;
-      right: 24px;
       display: flex;
       background: #F0F0EE;
       border-radius: 99px;
@@ -342,6 +342,8 @@
       gap: 2px;
       z-index: 2;
     }
+    .page-toggle { left: 24px; }
+    .lang-toggle { right: 24px; }
     .lang-btn {
       font-family: 'Inter', system-ui, sans-serif;
       font-size: 0.74rem;
@@ -361,8 +363,18 @@
     }
     .lang-btn:hover:not(.active) { color: var(--muted); }
 
+    /* News 列表项：复用 .paper 的排版逻辑，但没有缩略图，
+       外部链接箭头放在标题末尾提示“会跳转到站外” */
+    .news-ext {
+      font-size: 0.78em;
+      color: var(--faint);
+      margin-left: 4px;
+    }
+
     @media (max-width: 560px) {
-      .lang-toggle { top: 16px; right: 16px; }
+      .page-toggle, .lang-toggle { top: 16px; }
+      .page-toggle { left: 16px; }
+      .lang-toggle { right: 16px; }
       body { padding: 20px 12px 40px; }
       .page { padding: 36px 24px 48px; border-radius: 14px; }
       .header { flex-direction: column; align-items: center; text-align: center; margin-top: 30px; }
@@ -381,161 +393,214 @@
 
 <div class="page">
 
+  <!-- 【页面切换】Home / News，点击在主页内容和动态报道之间切换 -->
+  <div class="page-toggle" role="group" aria-label="Page toggle">
+    <button type="button" class="lang-btn active" data-view-btn="home" data-en="Home" data-zh="主页" onclick="setView('home')">Home</button>
+    <button type="button" class="lang-btn" data-view-btn="news" data-en="News" data-zh="动态" onclick="setView('news')">News</button>
+  </div>
+
   <!-- 【语言切换】点击 EN/中文 切换页面文字 -->
   <div class="lang-toggle" role="group" aria-label="Language toggle">
     <button type="button" class="lang-btn active" data-lang-btn="en" onclick="setLang('en')">EN</button>
     <button type="button" class="lang-btn" data-lang-btn="zh" onclick="setLang('zh')">中文</button>
   </div>
 
-  <!-- ══════════════ 顶部信息区 ══════════════ -->
-  <header class="header">
+  <!-- ══════════════ 主页内容 ══════════════ -->
+  <div id="view-home">
 
-    <!-- 【头像】真实照片，圆形裁切 -->
-    <img class="photo" src="photo.jpg" alt="Haoming Zhu" />
+    <!-- ══════════════ 顶部信息区 ══════════════ -->
+    <header class="header">
 
-    <div>
-      <!-- 【姓名】西方顺序：名在前，姓在后 -->
-      <h1>Haoming Zhu</h1>
+      <!-- 【头像】真实照片，圆形裁切 -->
+      <img class="photo" src="photo.jpg" alt="Haoming Zhu" />
 
-      <!-- 【中文名副标题】 -->
-      <div class="subtitle">朱浩鸣</div>
+      <div>
+        <!-- 【姓名】西方顺序：名在前，姓在后 -->
+        <h1>Haoming Zhu</h1>
 
-      <!-- 【机构信息】
-           data-en-html / data-zh-html 供语言切换脚本读取，
-           如需修改导师称谓或院系名称，两处都要改 -->
-      <div class="aff"
-        data-en-html='Undergraduate Researcher · School of Science<br />Sun Yat-sen University, Shenzhen Campus<br />Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank">Prof. Ge Xin</a> &ensp;·&ensp; Class of 2027'
-        data-zh-html='本科生研究者 · 理学院<br />中山大学深圳校区<br />指导老师：<a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank">葛昕教授</a> &ensp;·&ensp; 2027 届'>
-        Undergraduate Researcher · School of Science<br />
-        Sun Yat-sen University, Shenzhen Campus<br />
-        Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank">Prof. Ge Xin</a> &ensp;·&ensp; Class of 2027
+        <!-- 【中文名副标题】 -->
+        <div class="subtitle">朱浩鸣</div>
+
+        <!-- 【机构信息】
+             data-en-html / data-zh-html 供语言切换脚本读取，
+             如需修改导师称谓或院系名称，两处都要改 -->
+        <div class="aff"
+          data-en-html='Undergraduate Researcher · School of Science<br />Sun Yat-sen University, Shenzhen Campus<br />Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank">Prof. Ge Xin</a> &ensp;·&ensp; Class of 2027'
+          data-zh-html='本科生研究者 · 理学院<br />中山大学深圳校区<br />指导老师：<a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank">葛昕教授</a> &ensp;·&ensp; 2027 届'>
+          Undergraduate Researcher · School of Science<br />
+          Sun Yat-sen University, Shenzhen Campus<br />
+          Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank">Prof. Ge Xin</a> &ensp;·&ensp; Class of 2027
+        </div>
+
+        <!-- 【个人简介】
+             同样用 data-en-html / data-zh-html，因为段落里嵌了 OCT 的链接 -->
+        <p class="bio"
+          data-en-html='I work on computational optical imaging, with a focus on signal processing algorithms for <a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank">optical coherence tomography</a> (OCT)—including spectral windowing for sidelobe suppression and statistical frameworks for speckle noise reduction. I am interested in graduate programs in computational imaging and biomedical photonics.'
+          data-zh-html='我的研究方向是计算光学成像，重点关注<a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank">光学相干层析成像</a>（OCT）的信号处理算法，包括用于旁瓣抑制的频谱窗函数方法，以及用于斑点噪声抑制的统计框架。我对计算成像和生物医学光子学方向的研究生项目感兴趣。'>
+          I work on computational optical imaging, with a focus on signal processing algorithms
+          for <a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank">optical coherence tomography</a> (OCT)—including spectral windowing for sidelobe
+          suppression and statistical frameworks for speckle noise reduction. I am interested
+          in graduate programs in computational imaging and biomedical photonics.
+        </p>
+
+        <!-- 【导航链接】
+             邮箱用文字防爬格式显示（@ 替换成 [at]），不做成可点击的 mailto 链接，
+             避免爬虫脚本直接扫描抓取邮箱地址。
+             Scholar 链接有了之后取消注释 -->
+        <nav class="nav" aria-label="Links">
+          <span style="color: var(--blue); display: inline-flex; align-items: center; gap: 4px;">✉&thinsp;zhuhm27&thinsp;[at]&thinsp;mail2.sysu.edu.cn</span>
+          <a href="https://github.com/Avalais27" target="_blank">⌥&thinsp;GitHub</a>
+          <!-- <a href="https://scholar.google.com/..." target="_blank">⬡&thinsp;Scholar</a> -->
+        </nav>
       </div>
+    </header>
 
-      <!-- 【个人简介】
-           同样用 data-en-html / data-zh-html，因为段落里嵌了 OCT 的链接 -->
-      <p class="bio"
-        data-en-html='I work on computational optical imaging, with a focus on signal processing algorithms for <a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank">optical coherence tomography</a> (OCT)—including spectral windowing for sidelobe suppression and statistical frameworks for speckle noise reduction. I am interested in graduate programs in computational imaging and biomedical photonics.'
-        data-zh-html='我的研究方向是计算光学成像，重点关注<a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank">光学相干层析成像</a>（OCT）的信号处理算法，包括用于旁瓣抑制的频谱窗函数方法，以及用于斑点噪声抑制的统计框架。我对计算成像和生物医学光子学方向的研究生项目感兴趣。'>
-        I work on computational optical imaging, with a focus on signal processing algorithms
-        for <a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank">optical coherence tomography</a> (OCT)—including spectral windowing for sidelobe
-        suppression and statistical frameworks for speckle noise reduction. I am interested
-        in graduate programs in computational imaging and biomedical photonics.
+
+    <!-- ══════════════ 研究 / 论文 ══════════════ -->
+    <section class="section" id="research">
+      <div class="label" data-en="Research" data-zh="研究">Research</div>
+      <p class="note"
+        data-en-html='My work sits at the intersection of Fourier optics and statistical signal processing, with applications in biomedical imaging. <span style="color:var(--ink)">Representative publications are listed below.</span>'
+        data-zh-html='我的研究工作融合了傅里叶光学和统计信号处理，并应用于生物医学成像领域。<span style="color:var(--ink)">以下列出部分代表性论文。</span>'>
+        My work sits at the intersection of Fourier optics and statistical signal processing,
+        with applications in biomedical imaging.
+        <span style="color:var(--ink)">Representative publications are listed below.</span>
       </p>
 
-      <!-- 【导航链接】
-           邮箱用文字防爬格式显示（@ 替换成 [at]），不做成可点击的 mailto 链接，
-           避免爬虫脚本直接扫描抓取邮箱地址。
-           Scholar 链接有了之后取消注释 -->
-      <nav class="nav" aria-label="Links">
-        <span style="color: var(--blue); display: inline-flex; align-items: center; gap: 4px;">✉&thinsp;zhuhm27&thinsp;[at]&thinsp;mail2.sysu.edu.cn</span>
-        <a href="https://github.com/Avalais27" target="_blank">⌥&thinsp;GitHub</a>
-        <!-- <a href="https://scholar.google.com/..." target="_blank">⬡&thinsp;Scholar</a> -->
-      </nav>
-    </div>
-  </header>
+      <div class="papers">
 
-
-  <!-- ══════════════ 研究 / 论文 ══════════════ -->
-  <section class="section" id="research">
-    <div class="label" data-en="Research" data-zh="研究">Research</div>
-    <p class="note"
-      data-en-html='My work sits at the intersection of Fourier optics and statistical signal processing, with applications in biomedical imaging. <span style="color:var(--ink)">Representative publications are listed below.</span>'
-      data-zh-html='我的研究工作融合了傅里叶光学和统计信号处理，并应用于生物医学成像领域。<span style="color:var(--ink)">以下列出部分代表性论文。</span>'>
-      My work sits at the intersection of Fourier optics and statistical signal processing,
-      with applications in biomedical imaging.
-      <span style="color:var(--ink)">Representative publications are listed below.</span>
-    </p>
-
-    <div class="papers">
-
-      <!-- ── 论文 1（已发表）────────────────────────────── -->
-      <div class="paper">
-        <div class="thumb">
-          <img src="cover1.jpg" alt="Taylor-Hann hybrid window flowchart" />
-        </div>
-        <div class="pinfo">
-          <!-- 论文标题：点击跳转 DOI -->
-          <div class="ptitle">
-            <a href="https://doi.org/10.1016/j.optlastec.2026.115732" target="_blank">
-              A Low-complexity Taylor-based hybrid multi-window method for OCT sidelobe suppression
-            </a>
+        <!-- ── 论文 1（已发表）────────────────────────────── -->
+        <div class="paper">
+          <div class="thumb">
+            <img src="cover1.jpg" alt="Taylor-Hann hybrid window flowchart" />
           </div>
-          <!-- 作者顺序：自己用 <strong> 加粗，其余正常显示
-               原始作者标注含单位上标(a,b,c,d)和通讯作者星号(*)，这里全部去掉，只留姓名 -->
-          <div class="pauthors">
-            <strong>Haoming Zhu</strong>, Weiting Chen, Ruihan Ye, Jin He, Yilin Zhong,
-            Zikun Qi, Qiaozhou Xiong, Yongsheng Huang, Linbo Liu, and Xin Ge
-          </div>
-          <!-- 期刊信息 + 质量 badge -->
-          <div class="pvenue">
-            <em>Optics &amp; Laser Technology</em>, 2026
-            <span class="badge badge-q1">JCR Q1</span>
-            <span class="badge badge-jnl">IF 5.0</span>
-          </div>
-          <!-- 链接：DOI 已确认有效；PDF 有了之后把 # 换成实际链接 -->
-          <div class="plinks">
-            <a href="https://doi.org/10.1016/j.optlastec.2026.115732" target="_blank">[DOI]</a>
-            <a href="#">[PDF]</a>
+          <div class="pinfo">
+            <!-- 论文标题：点击跳转 DOI -->
+            <div class="ptitle">
+              <a href="https://doi.org/10.1016/j.optlastec.2026.115732" target="_blank">
+                A Low-complexity Taylor-based hybrid multi-window method for OCT sidelobe suppression
+              </a>
+            </div>
+            <!-- 作者顺序：自己用 <strong> 加粗，其余正常显示
+                 原始作者标注含单位上标(a,b,c,d)和通讯作者星号(*)，这里全部去掉，只留姓名 -->
+            <div class="pauthors">
+              <strong>Haoming Zhu</strong>, Weiting Chen, Ruihan Ye, Jin He, Yilin Zhong,
+              Zikun Qi, Qiaozhou Xiong, Yongsheng Huang, Linbo Liu, and Xin Ge
+            </div>
+            <!-- 期刊信息 + 质量 badge -->
+            <div class="pvenue">
+              <em>Optics &amp; Laser Technology</em>, 2026
+              <span class="badge badge-q1">JCR Q1</span>
+              <span class="badge badge-jnl">IF 5.0</span>
+            </div>
+            <!-- 链接：DOI 已确认有效；PDF 有了之后把 # 换成实际链接 -->
+            <div class="plinks">
+              <a href="https://doi.org/10.1016/j.optlastec.2026.115732" target="_blank">[DOI]</a>
+              <a href="#">[PDF]</a>
+            </div>
           </div>
         </div>
+
+        <!-- ── 论文 2（准备中）──────────────────────────────
+             整行显示为灰色半透明，不可点击
+             投出去并接收后：删掉 class 里的 wip，补充期刊和链接 -->
+        <div class="paper wip" aria-hidden="true">
+          <div class="thumb">
+            <img src="cover2.jpg" alt="GM-RPM speckle suppression flowchart" />
+          </div>
+          <div class="pinfo">
+            <div class="ptitle">
+              GM-RPM: A Grouped-Min Random Phase Modulation Framework
+              for Speckle Suppression in Coherent Imaging
+            </div>
+            <div class="pauthors">
+              <strong>Haoming Zhu</strong>, Xin Ge
+            </div>
+            <div class="pvenue">
+              <span class="badge badge-wip">In Preparation</span>
+            </div>
+          </div>
+        </div>
+
       </div>
+    </section>
 
-      <!-- ── 论文 2（准备中）──────────────────────────────
-           整行显示为灰色半透明，不可点击
-           投出去并接收后：删掉 class 里的 wip，补充期刊和链接 -->
-      <div class="paper wip" aria-hidden="true">
-        <div class="thumb">
-          <img src="cover2.jpg" alt="GM-RPM speckle suppression flowchart" />
-        </div>
-        <div class="pinfo">
-          <div class="ptitle">
-            GM-RPM: A Grouped-Min Random Phase Modulation Framework
-            for Speckle Suppression in Coherent Imaging
+
+    <!-- ══════════════ 教育经历 ══════════════ -->
+    <section class="section" id="education">
+      <div class="label" data-en="Education" data-zh="教育经历">Education</div>
+      <div class="edu-rows">
+
+        <div class="edu-row">
+          <div class="edu-yr">
+            2023 – 2027
+            <!-- 校徽：放在年份下方，跟年份同属左侧这一栏 -->
+            <img src="sysu.jpg" alt="Sun Yat-sen University emblem" class="edu-logo" />
           </div>
-          <div class="pauthors">
-            <strong>Haoming Zhu</strong>, Xin Ge
+          <div class="edu-d">
+            <strong data-en="B.Sc. in Physics" data-zh="物理学 学士">B.Sc. in Physics</strong>
+            <!-- 如需添加排名，改为：GPA 3.94 / 4.0 &ensp;·&ensp; Rank 12 / 50 -->
+            <span data-en="Sun Yat-sen University (Shenzhen) · GPA 3.94 / 4.0"
+                  data-zh="中山大学（深圳）· GPA 3.94 / 4.0">Sun Yat-sen University (Shenzhen) &ensp;·&ensp; GPA 3.94 / 4.0</span>
           </div>
-          <div class="pvenue">
-            <span class="badge badge-wip">In Preparation</span>
+        </div>
+
+        <!-- 录取研究生后取消注释并填写信息：
+        <div class="edu-row">
+          <div class="edu-yr">2027 –</div>
+          <div class="edu-d">
+            <strong>M.Sc. / Ph.D. in [field]</strong>
+            <span>[Institution]</span>
           </div>
         </div>
+        -->
+
       </div>
+    </section>
 
-    </div>
-  </section>
+  </div>
+  <!-- /view-home -->
 
 
-  <!-- ══════════════ 教育经历 ══════════════ -->
-  <section class="section" id="education">
-    <div class="label" data-en="Education" data-zh="教育经历">Education</div>
-    <div class="edu-rows">
+  <!-- ══════════════ News 内容（默认隐藏，点击 News 标签后显示） ══════════════ -->
+  <div id="view-news" style="display:none;">
 
-      <div class="edu-row">
-        <div class="edu-yr">
-          2023 – 2027
-          <!-- 校徽：放在年份下方，跟年份同属左侧这一栏 -->
-          <img src="sysu.jpg" alt="Sun Yat-sen University emblem" class="edu-logo" />
+    <section class="section" id="news">
+      <div class="label" data-en="News" data-zh="动态">News</div>
+      <p class="note"
+        data-en="Press coverage and feature stories about my research."
+        data-zh="关于我研究工作的媒体报道与专题报道。">
+        Press coverage and feature stories about my research.
+      </p>
+
+      <div class="papers">
+
+        <!-- ── 公众号报道 ────────────────────────────────── -->
+        <div class="paper">
+          <div class="pinfo">
+            <div class="ptitle">
+              <a href="https://mp.weixin.qq.com/s/utmrA1f1dD4itM00w3lmJw" target="_blank">
+                科研动态｜我院本科生创新创业项目团队在光学成像领域发表高水平成果
+                <span class="news-ext" aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <div class="pvenue">
+              <span data-en="Sun Yat-sen University, School of Science — Official WeChat"
+                    data-zh="中山大学理学院 · 官方微信公众号">Sun Yat-sen University, School of Science — Official WeChat</span>
+              <span class="badge badge-jnl">WeChat</span>
+            </div>
+            <div class="plinks">
+              <a href="https://mp.weixin.qq.com/s/utmrA1f1dD4itM00w3lmJw" target="_blank"
+                 data-en="Read article →" data-zh="阅读全文 →">Read article →</a>
+            </div>
+          </div>
         </div>
-        <div class="edu-d">
-          <strong data-en="B.Sc. in Physics" data-zh="物理学 学士">B.Sc. in Physics</strong>
-          <!-- 如需添加排名，改为：GPA 3.94 / 4.0 &ensp;·&ensp; Rank 12 / 50 -->
-          <span data-en="Sun Yat-sen University (Shenzhen) · GPA 3.94 / 4.0"
-                data-zh="中山大学（深圳）· GPA 3.94 / 4.0">Sun Yat-sen University (Shenzhen) &ensp;·&ensp; GPA 3.94 / 4.0</span>
-        </div>
+
       </div>
+    </section>
 
-      <!-- 录取研究生后取消注释并填写信息：
-      <div class="edu-row">
-        <div class="edu-yr">2027 –</div>
-        <div class="edu-d">
-          <strong>M.Sc. / Ph.D. in [field]</strong>
-          <span>[Institution]</span>
-        </div>
-      </div>
-      -->
-
-    </div>
-  </section>
+  </div>
+  <!-- /view-news -->
 
 
   <!-- ══════════════ 页脚 ══════════════ -->
@@ -547,10 +612,12 @@
 
 </div>
 
-<!-- ══════════════ 语言切换脚本 ══════════════
-     原理：纯文本节点用 data-en / data-zh 存中英文，
+<!-- ══════════════ 切换脚本 ══════════════
+     语言切换原理：纯文本节点用 data-en / data-zh 存中英文，
      含链接等标签的节点用 data-en-html / data-zh-html 存整段 HTML，
-     点击按钮后按对应属性整体替换内容。 -->
+     点击按钮后按对应属性整体替换内容。
+     页面切换原理：Home/News 各对应一个容器 div，
+     点击按钮后用 display 属性互相切换显示。 -->
 <script>
   function setLang(lang) {
     document.querySelectorAll('[data-en]').forEach(function (el) {
@@ -559,10 +626,18 @@
     document.querySelectorAll('[data-en-html]').forEach(function (el) {
       el.innerHTML = lang === 'zh' ? el.getAttribute('data-zh-html') : el.getAttribute('data-en-html');
     });
-    document.querySelectorAll('.lang-btn').forEach(function (btn) {
+    document.querySelectorAll('.lang-btn[data-lang-btn]').forEach(function (btn) {
       btn.classList.toggle('active', btn.getAttribute('data-lang-btn') === lang);
     });
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  }
+
+  function setView(view) {
+    document.getElementById('view-home').style.display = view === 'home' ? '' : 'none';
+    document.getElementById('view-news').style.display = view === 'news' ? '' : 'none';
+    document.querySelectorAll('.lang-btn[data-view-btn]').forEach(function (btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-view-btn') === view);
+    });
   }
 </script>
 
