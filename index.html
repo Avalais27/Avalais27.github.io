@@ -1,645 +1,140 @@
+可以。下面是完整 HTML，直接替换原来的 `index.html` 内容即可。
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- 浏览器标签页标题 -->
-  <title>Haoming Zhu</title>
-
-  <!-- Google 字体：EB Garamond 用于姓名（古典衬线体），Inter 用于正文（精准无衬线） -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
-  <style>
-    /* ── 全局设计变量 ──────────────────────────────────────
-       修改颜色只需改这里，不用逐行找                        */
-    :root {
-      --white:   #FFFFFF;          /* 背景色 */
-      --ink:     #141414;          /* 主文字色 */
-      --muted:   #555555;          /* 次要文字（机构、作者等） */
-      --faint:   #8A8A8A;          /* 更淡的文字（年份、section标签） */
-      --rule:    #EBEBEB;          /* 分隔线颜色 */
-      --blue:    #1B52AD;          /* 强调色：链接、badge */
-      --blue-bg: rgba(27,82,173,0.04); /* 论文行 hover 背景 */
-      --green-bg:#E8F4E8;          /* Q1 badge 背景 */
-      --green:   #277227;          /* Q1 badge 文字 */
-      --badge-bg:#E6EDF8;          /* 期刊 badge 背景 */
-      --photo:   160px;            /* 头像直径 */
-      --thumb:   150px;            /* 论文缩略图宽度（流程图需要更多空间） */
-      --max:     800px;            /* 页面最大宽度 */
-    }
-
-    /* ── Reset ────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 15px; -webkit-font-smoothing: antialiased; }
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      font-weight: 400;
-      color: var(--ink);
-      line-height: 1.7;
-      padding: 40px 20px 60px;
-      min-height: 100vh;
-      overflow-x: hidden; /* 防止背后的动效层撑出横向滚动条 */
-    }
-
-    /* ── 背景动效层 ───────────────────────────────────────
-       两侧留白不再是空白，而是放一层极淡的干涉条纹背景，
-       呼应 OCT/光学干涉的研究主题，并缓慢漂移营造高级感。
-       opacity 很低，不会干扰阅读，只在卡片两侧的空白处可见。 */
-    .bg-fx {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      background-color: #E9F1FA;
-      background-image:
-        repeating-linear-gradient(
-          100deg,
-          rgba(27, 82, 173, 0.06) 0px,
-          rgba(27, 82, 173, 0.06) 1px,
-          transparent 1px,
-          transparent 34px
-        );
-      animation: fringeDrift 16s linear infinite;
-    }
-    @keyframes fringeDrift {
-      from { background-position: 0 0; }
-      to   { background-position: 340px 0; } /* 10 个条纹周期，循环无缝衔接 */
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .bg-fx { animation: none; } /* 尊重用户的“减少动态效果”系统设置 */
-    }
-
-    /* ── 页面容器：改为悬浮卡片，搭配阴影和圆角 ──────────── */
-    .page {
-      max-width: var(--max);
-      margin: 0 auto;
-      background: var(--white);
-      border-radius: 18px;
-      box-shadow:
-        0 1px 2px rgba(20, 20, 20, 0.04),
-        0 16px 48px rgba(20, 20, 20, 0.07);
-      padding: 56px 56px 64px;
-      position: relative;
-    }
-
-    /* ── 入场动效：卡片整体 + 各 section 依次淡入上浮 ───── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .header, .section, footer {
-      animation: fadeUp 0.65s ease both;
-    }
-    .header { animation-delay: 0.1s; }
-    .section:nth-of-type(1) { animation-delay: 0.5s; }
-    .section:nth-of-type(2) { animation-delay: 1.0s; }
-    footer { animation-delay: 1.5s; }
-    @media (prefers-reduced-motion: reduce) {
-      .header, .section, footer { animation: none; }
-    }
-
-    /* ── 顶部 header：头像左，文字右 ─────────────────── */
-    .header {
-      display: flex;
-      align-items: flex-start;
-      gap: 32px;
-      margin-bottom: 52px;
-    }
-
-    /* 真实头像：把下面的 monogram div 删掉，取消这段注释
-       <img class="photo" src="photo.jpg" alt="Haoming Zhu" /> */
-    .photo {
-      width: var(--photo);
-      height: var(--photo);
-      border-radius: 50%;
-      object-fit: cover;
-      flex-shrink: 0;
-      border: 1px solid var(--rule);
-    }
-
-    /* 无头像时的占位字母圆圈，有头像后删掉这个 div */
-    .monogram {
-      width: var(--photo);
-      height: var(--photo);
-      border-radius: 50%;
-      border: 1px solid var(--rule);
-      flex-shrink: 0;
-      background: #F0F3F8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'EB Garamond', Georgia, serif;
-      font-style: italic;
-      font-size: 3.6rem;
-      color: #9AAAC2;
-      user-select: none;
-    }
-
-    /* 姓名：改为正常无衬线字体（不再用斜体衬线），更简洁 */
-    h1 {
-      font-family: 'Inter', system-ui, sans-serif;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 2.1rem;
-      line-height: 1.2;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-
-    /* 中文名副标题 */
-    .subtitle {
-      font-size: 0.82rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--faint);
-      margin-bottom: 10px;
-    }
-
-    /* 机构信息 */
-    .aff {
-      font-size: 0.88rem;
-      color: var(--muted);
-      line-height: 1.55;
-      margin-bottom: 14px;
-    }
-    .aff a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--rule); }
-    .aff a:hover { color: var(--blue); border-color: var(--blue); }
-
-    /* 个人简介段落 */
-    .bio {
-      font-size: 0.91rem;
-      color: var(--ink);
-      line-height: 1.72;
-      margin-bottom: 18px;
-    }
-    .bio a { color: var(--blue); text-decoration: none; }
-    .bio a:hover { text-decoration: underline; }
-
-    /* 导航链接行（Email / GitHub / Scholar） */
-    .nav {
-      display: flex;
-      flex-wrap: wrap;
-      column-gap: 18px;
-      row-gap: 4px;
-      font-size: 0.83rem;
-    }
-    .nav a {
-      color: var(--blue);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .nav a:hover { text-decoration: underline; }
-
-    /* ── Section 标签（RESEARCH / EDUCATION 等） ───────── */
-    .label {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--faint);
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--rule);
-      margin-bottom: 8px;
-    }
-
-    /* Section 下方的说明文字 */
-    .note {
-      font-size: 0.88rem;
-      color: var(--muted);
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
-
-    /* ── 论文列表 ─────────────────────────────────────── */
-    .papers { display: flex; flex-direction: column; }
-
-    /* 每行论文：hover 时左侧出现蓝色竖线 + 极淡蓝色背景 */
-    .paper {
-      display: flex;
-      align-items: flex-start;
-      gap: 18px;
-      padding: 14px 0 14px 10px;
-      margin-left: -10px;
-      border-radius: 6px;
-      border-left: 2px solid transparent; /* hover 前透明，保持布局不跳动 */
-      transition: background 0.18s ease, border-color 0.18s ease;
-    }
-    .paper:hover {
-      background: var(--blue-bg);
-      border-left-color: var(--blue);
-    }
-
-    /* 论文缩略图区域
-       两张流程图实际比例接近 16:10，这里把容器比例改过来，
-       减少 contain 模式下的留白；宽度加大到 150px 让图更清楚。 */
-    .thumb { width: var(--thumb); flex-shrink: 0; margin-top: 2px; }
-    .thumb img {
-      width: 100%; aspect-ratio: 16/10; object-fit: contain;
-      background: #FFFFFF;
-      border-radius: 4px; border: 1px solid var(--rule); display: block;
-    }
-    /* 无图时的占位框，有图后把 thumb-ph div 替换为 img 标签 */
-    .thumb-ph {
-      width: 100%; aspect-ratio: 16/10; border-radius: 4px;
-      border: 1px solid var(--rule); background: #F5F6F8;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .thumb-ph svg { width: 22px; height: 22px; opacity: 0.18; }
-
-    /* 论文信息区 */
-    .pinfo { flex: 1; min-width: 0; }
-
-    /* 论文标题 */
-    .ptitle {
-      font-size: 0.93rem; font-weight: 500;
-      line-height: 1.45; margin-bottom: 3px;
-    }
-    .ptitle a { color: var(--ink); text-decoration: none; }
-    .ptitle a:hover { color: var(--blue); }
-
-    /* 作者行，自己的名字用 <strong> 加粗 */
-    .pauthors {
-      font-size: 0.80rem; color: var(--muted);
-      margin-bottom: 3px; line-height: 1.5;
-    }
-    .pauthors strong { color: var(--ink); font-weight: 600; }
-
-    /* 期刊 + 年份 + badge 行 */
-    .pvenue {
-      font-size: 0.80rem; color: var(--muted);
-      margin-bottom: 7px; line-height: 1.4;
-      display: flex; align-items: center; flex-wrap: wrap; gap: 5px;
-    }
-    .pvenue em { font-style: italic; }
-
-    /* 小 badge：JCR Q1 / IF / In Preparation */
-    .badge {
-      display: inline-block; font-size: 0.66rem; font-weight: 600;
-      letter-spacing: 0.03em; padding: 1px 5px;
-      border-radius: 3px; line-height: 1.6;
-    }
-    .badge-q1  { background: var(--green-bg); color: var(--green); }
-    .badge-jnl { background: var(--badge-bg); color: var(--blue); }
-    .badge-wip { background: #F0F0EE; color: #999; }
-
-    /* 论文链接（[DOI] [PDF] 等） */
-    .plinks { display: flex; gap: 12px; flex-wrap: wrap; }
-    .plinks a { font-size: 0.77rem; color: var(--blue); text-decoration: none; }
-    .plinks a:hover { text-decoration: underline; }
-
-    /* 准备中的论文：整行变灰，禁止点击 */
-    .paper.wip { opacity: 0.55; pointer-events: none; }
-    .paper.wip:hover { background: none; border-color: transparent; }
-
-    /* ── 教育经历 ─────────────────────────────────────── */
-    .edu-rows { display: flex; flex-direction: column; }
-    .edu-row {
-      display: flex; align-items: center; gap: 24px; padding: 11px 0;
-      border-bottom: 1px solid var(--rule); font-size: 0.88rem;
-    }
-    .edu-row:last-child { border-bottom: none; }
-    .edu-yr { color: var(--faint); min-width: 90px; flex-shrink: 0; padding-top: 1px; }
-    .edu-d strong { display: block; font-weight: 500; color: var(--ink); }
-    .edu-d span { color: var(--muted); font-size: 0.83rem; }
-
-    /* 校徽：跟年份同属左侧一栏，换行显示在年份下方 */
-    .edu-logo {
-      display: block;
-      width: 40px;
-      height: 40px;
-      object-fit: contain;
-      margin-top: 8px;
-      opacity: 0.92;
-    }
-
-    /* Section 之间的间距 */
-    .section { margin-bottom: 44px; }
-
-    /* ── 页脚 ─────────────────────────────────────────── */
-    footer {
-      padding-top: 24px; border-top: 1px solid var(--rule);
-      font-size: 0.76rem; color: #BBBBBB;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    footer a { color: inherit; text-decoration: none; }
-    footer a:hover { color: var(--muted); }
-
-    /* ── 顶部切换控件公用样式：Home/News 与 EN/中文 共用同一套
-       胶囊外观，分别固定在卡片左上角和右上角 ──────────────── */
-    .page-toggle, .lang-toggle {
-      position: absolute;
-      top: 24px;
-      display: flex;
-      background: #F0F0EE;
-      border-radius: 99px;
-      padding: 3px;
-      gap: 2px;
-      z-index: 2;
-    }
-    .page-toggle { left: 24px; }
-    .lang-toggle { right: 24px; }
-    .lang-btn {
-      font-family: 'Inter', system-ui, sans-serif;
-      font-size: 0.74rem;
-      font-weight: 500;
-      padding: 4px 12px;
-      border-radius: 99px;
-      border: none;
-      background: transparent;
-      color: var(--faint);
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-    }
-    .lang-btn.active {
-      background: var(--white);
-      color: var(--blue);
-      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
-    }
-    .lang-btn:hover:not(.active) { color: var(--muted); }
-
-    /* News 列表项：复用 .paper 的排版逻辑，但没有缩略图，
-       外部链接箭头放在标题末尾提示“会跳转到站外” */
-    .news-ext {
-      font-size: 0.78em;
-      color: var(--faint);
-      margin-left: 4px;
-    }
-
-    @media (max-width: 560px) {
-      .page-toggle, .lang-toggle { top: 16px; }
-      .page-toggle { left: 16px; }
-      .lang-toggle { right: 16px; }
-      body { padding: 20px 12px 40px; }
-      .page { padding: 36px 24px 48px; border-radius: 14px; }
-      .header { flex-direction: column; align-items: center; text-align: center; margin-top: 30px; }
-      .monogram, .photo { width: 100px; height: 100px; font-size: 2.8rem; }
-      h1 { font-size: 1.9rem; }
-      .nav { justify-content: center; }
-      .thumb { display: none; } /* 手机上隐藏缩略图，节省空间 */
-      .edu-row { flex-direction: column; gap: 2px; }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Haoming Zhu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e6ebf1;--surface:#f8fafc;--surface2:#eef3f7;--ink:#161b22;--muted:#566170;--rule:#d5dde6;--nav:#162231;--navink:#f4f7fa;--blue:#245f9f;--blue2:#dbe8f5;--green:#2f6f4e;--green2:#dfeee5;--max:1160px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+.topbar{position:sticky;top:0;z-index:20;background:var(--nav);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav-inner{max-width:var(--max);min-height:74px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.brand{color:var(--navink);font-size:1.28rem;font-weight:700}.nav-links{display:flex;gap:30px;font-weight:500}.nav-links a{color:rgba(244,247,250,.82)}.nav-links a:hover,.nav-links a.active{color:var(--navink);text-decoration:none}
+.hero{min-height:410px;position:relative;overflow:hidden;background:#07111b;background-image:linear-gradient(90deg,rgba(7,17,27,.92),rgba(7,17,27,.42) 48%,rgba(7,17,27,.75)),url("cover1.jpg");background-size:cover;background-position:center;border-bottom:1px solid rgba(255,255,255,.1)}
+.hero:after{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(105deg,rgba(180,210,238,.055) 0,rgba(180,210,238,.055) 1px,transparent 1px,transparent 34px)}
+.hero-inner{position:relative;z-index:1;max-width:var(--max);min-height:410px;margin:0 auto;padding:82px 28px 76px;display:flex;align-items:flex-end}.hero-copy{max-width:700px;color:#f6f8fb}.hero-kicker{font-size:.88rem;font-weight:600;color:#a8c8e8;margin-bottom:14px}
+h1{font-family:"Source Serif 4",Georgia,serif;font-size:3.6rem;line-height:1.02;font-weight:600;margin-bottom:18px}.hero p{max-width:620px;color:rgba(246,248,251,.82);font-size:1.08rem}
+.main{background:var(--surface)}.profile-band,.section{max-width:var(--max);margin:0 auto;padding:0 28px;display:grid;grid-template-columns:280px minmax(0,1fr);gap:54px}.profile-card{transform:translateY(-86px)}
+.photo{width:100%;aspect-ratio:4/4.1;object-fit:cover;display:block;border:7px solid var(--surface);border-radius:4px;box-shadow:0 18px 42px rgba(10,20,32,.18);background:var(--surface2)}
+.profile-meta{padding:28px 8px 0}.profile-name{font-size:1.55rem;line-height:1.2;font-weight:700;margin-bottom:4px}.profile-role{color:var(--muted);font-size:1.02rem;margin-bottom:22px}.profile-links{display:flex;flex-direction:column;gap:10px;margin-bottom:26px;font-size:.96rem}.address{color:var(--muted);font-size:.95rem}
+.content{padding:72px 0 86px}section{scroll-margin-top:96px}.section{padding-bottom:82px}.section:last-child{padding-bottom:64px}.section-title{font-family:"Source Serif 4",Georgia,serif;font-size:2.4rem;line-height:1.1;font-weight:600}.section-note{color:var(--muted);font-size:1.02rem;max-width:760px;margin-bottom:28px}
+.about-text{max-width:760px;display:grid;gap:18px;font-size:1.02rem;color:#2a3038}.edu-block{margin-top:34px;padding-top:26px;border-top:1px solid var(--rule);display:grid;grid-template-columns:72px 1fr;gap:18px;align-items:center}.edu-logo{width:54px;height:54px;object-fit:contain}.edu-title{font-weight:600}.edu-meta{color:var(--muted);font-size:.95rem}
+.papers,.news-list{display:grid;gap:18px}.paper,.news-item{display:grid;grid-template-columns:180px 1fr;gap:22px;padding:22px;background:var(--surface2);border:1px solid var(--rule);border-radius:8px;transition:.18s}.paper:hover,.news-item:hover{border-color:#b6c5d6;background:#f2f6fa}.paper-thumb{width:100%;aspect-ratio:16/10;object-fit:contain;background:white;border:1px solid var(--rule);border-radius:4px}.paper-title,.news-title{font-weight:600;line-height:1.45;margin-bottom:8px}.paper-title a,.news-title a{color:var(--ink)}
+.authors,.venue,.news-meta{color:var(--muted);font-size:.92rem}.authors strong{color:var(--ink);font-weight:700}.venue{margin-top:8px;display:flex;flex-wrap:wrap;gap:7px;align-items:center}.links{margin-top:12px;display:flex;gap:14px;font-size:.9rem;font-weight:500}.badge{display:inline-flex;align-items:center;min-height:22px;padding:2px 7px;border-radius:4px;font-size:.76rem;font-weight:600}.badge-q1{color:var(--green);background:var(--green2)}.badge-journal{color:var(--blue);background:var(--blue2)}.badge-wip{color:#6e7480;background:#e2e6eb}.paper.wip{opacity:.72}.news-item{grid-template-columns:1fr}
+footer{background:#dbe2ea;border-top:1px solid var(--rule)}.footer-inner{max-width:var(--max);margin:0 auto;padding:26px 28px;display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:.9rem}
+@media(max-width:860px){.nav-inner{min-height:68px;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px}.nav-links{gap:18px;font-size:.92rem}h1{font-size:2.55rem}.hero,.hero-inner{min-height:360px}.profile-band,.section{grid-template-columns:1fr;gap:28px}.profile-card{transform:translateY(-64px);max-width:260px}.content{padding-top:20px}.section{padding-bottom:64px}}
+@media(max-width:640px){.nav-inner,.hero-inner,.profile-band,.section,.footer-inner{padding-left:20px;padding-right:20px}.nav-links{width:100%;justify-content:space-between}.hero,.hero-inner{min-height:330px}.hero-inner{padding-top:58px;padding-bottom:54px}h1{font-size:2.2rem}.paper{grid-template-columns:1fr}.footer-inner{flex-direction:column}}
+</style>
 </head>
-
 <body>
-<!-- 背景动效层：极淡的漂移干涉条纹，呼应 OCT 研究主题 -->
-<div class="bg-fx" aria-hidden="true"></div>
-
-<div class="page">
-
-  <!-- 【页面切换】Home / News，点击在主页内容和动态报道之间切换 -->
-  <div class="page-toggle" role="group" aria-label="Page toggle">
-    <button type="button" class="lang-btn active" data-view-btn="home" data-en="Home" data-zh="主页" onclick="setView('home')">Home</button>
-    <button type="button" class="lang-btn" data-view-btn="news" data-en="News" data-zh="动态" onclick="setView('news')">News</button>
+<header class="topbar">
+  <div class="nav-inner">
+    <a class="brand" href="#home">Haoming Zhu</a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a class="active" href="#home">Home</a>
+      <a href="#publications">Publications</a>
+      <a href="#news">News</a>
+    </nav>
   </div>
+</header>
 
-  <!-- 【语言切换】点击 EN/中文 切换页面文字 -->
-  <div class="lang-toggle" role="group" aria-label="Language toggle">
-    <button type="button" class="lang-btn active" data-lang-btn="en" onclick="setLang('en')">EN</button>
-    <button type="button" class="lang-btn" data-lang-btn="zh" onclick="setLang('zh')">中文</button>
+<main>
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="hero-kicker">Computational Optical Imaging / OCT Signal Processing</div>
+      <h1>Haoming Zhu</h1>
+      <p>Undergraduate researcher at Sun Yat-sen University working on computational optical imaging, frequency-domain signal processing, and biomedical photonics.</p>
+    </div>
   </div>
+</section>
 
-  <!-- ══════════════ 主页内容 ══════════════ -->
-  <div id="view-home">
-
-    <!-- ══════════════ 顶部信息区 ══════════════ -->
-    <header class="header">
-
-      <!-- 【头像】真实照片，圆形裁切 -->
-      <img class="photo" src="photo.jpg" alt="Haoming Zhu" />
-
-      <div>
-        <!-- 【姓名】西方顺序：名在前，姓在后 -->
-        <h1>Haoming Zhu</h1>
-
-        <!-- 【中文名副标题】 -->
-        <div class="subtitle">朱浩鸣</div>
-
-        <!-- 【机构信息】
-             data-en-html / data-zh-html 供语言切换脚本读取，
-             如需修改导师称谓或院系名称，两处都要改 -->
-        <div class="aff"
-          data-en-html='Undergraduate Researcher · School of Science<br />Sun Yat-sen University, Shenzhen Campus<br />Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank">Prof. Ge Xin</a> &ensp;·&ensp; Class of 2027'
-          data-zh-html='本科生研究者 · 理学院<br />中山大学深圳校区<br />指导老师：<a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank">葛昕教授</a> &ensp;·&ensp; 2027 届'>
-          Undergraduate Researcher · School of Science<br />
-          Sun Yat-sen University, Shenzhen Campus<br />
-          Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank">Prof. Ge Xin</a> &ensp;·&ensp; Class of 2027
+<div class="main">
+  <div class="profile-band">
+    <aside class="profile-card">
+      <img class="photo" src="photo.jpg" alt="Haoming Zhu">
+      <div class="profile-meta">
+        <div class="profile-name">Haoming Zhu</div>
+        <div class="profile-role">Undergraduate Researcher</div>
+        <div class="profile-links">
+          <span>zhuhm27 [at] mail2.sysu.edu.cn</span>
+          <a href="https://github.com/Avalais27" target="_blank" rel="noopener">GitHub</a>
         </div>
-
-        <!-- 【个人简介】
-             同样用 data-en-html / data-zh-html，因为段落里嵌了 OCT 的链接 -->
-        <p class="bio"
-          data-en-html='I work on computational optical imaging, with a focus on signal processing algorithms for <a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank">optical coherence tomography</a> (OCT)—including spectral windowing for sidelobe suppression and statistical frameworks for speckle noise reduction. I am interested in graduate programs in computational imaging and biomedical photonics.'
-          data-zh-html='我的研究方向是计算光学成像，重点关注<a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank">光学相干层析成像</a>（OCT）的信号处理算法，包括用于旁瓣抑制的频谱窗函数方法，以及用于斑点噪声抑制的统计框架。我对计算成像和生物医学光子学方向的研究生项目感兴趣。'>
-          I work on computational optical imaging, with a focus on signal processing algorithms
-          for <a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank">optical coherence tomography</a> (OCT)—including spectral windowing for sidelobe
-          suppression and statistical frameworks for speckle noise reduction. I am interested
-          in graduate programs in computational imaging and biomedical photonics.
-        </p>
-
-        <!-- 【导航链接】
-             邮箱用文字防爬格式显示（@ 替换成 [at]），不做成可点击的 mailto 链接，
-             避免爬虫脚本直接扫描抓取邮箱地址。
-             Scholar 链接有了之后取消注释 -->
-        <nav class="nav" aria-label="Links">
-          <span style="color: var(--blue); display: inline-flex; align-items: center; gap: 4px;">✉&thinsp;zhuhm27&thinsp;[at]&thinsp;mail2.sysu.edu.cn</span>
-          <a href="https://github.com/Avalais27" target="_blank">⌥&thinsp;GitHub</a>
-          <!-- <a href="https://scholar.google.com/..." target="_blank">⬡&thinsp;Scholar</a> -->
-        </nav>
+        <div class="address">School of Science<br>Sun Yat-sen University<br>Shenzhen Campus<br>Class of 2027</div>
       </div>
-    </header>
+    </aside>
 
+    <section class="content" aria-labelledby="about-title">
+      <div class="section-title" id="about-title">About</div>
+      <div class="about-text">
+        <p>I work on computational optical imaging, with a focus on signal processing algorithms for <a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank" rel="noopener">optical coherence tomography</a> (OCT). My current work includes spectral windowing for sidelobe suppression and statistical frameworks for speckle noise reduction.</p>
+        <p>My research sits at the intersection of Fourier optics, computational imaging, and biomedical photonics. I am especially interested in physics-informed reconstruction pipelines and robust image formation methods for biomedical imaging systems.</p>
+        <div class="edu-block">
+          <img class="edu-logo" src="sysu.jpg" alt="Sun Yat-sen University emblem">
+          <div>
+            <div class="edu-title">B.Sc. in Physics, 2023-2027</div>
+            <div class="edu-meta">Sun Yat-sen University (Shenzhen) / GPA 3.94 / 4.0<br>Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank" rel="noopener">Prof. Xin Ge</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 
-    <!-- ══════════════ 研究 / 论文 ══════════════ -->
-    <section class="section" id="research">
-      <div class="label" data-en="Research" data-zh="研究">Research</div>
-      <p class="note"
-        data-en-html='My work sits at the intersection of Fourier optics and statistical signal processing, with applications in biomedical imaging. <span style="color:var(--ink)">Representative publications are listed below.</span>'
-        data-zh-html='我的研究工作融合了傅里叶光学和统计信号处理，并应用于生物医学成像领域。<span style="color:var(--ink)">以下列出部分代表性论文。</span>'>
-        My work sits at the intersection of Fourier optics and statistical signal processing,
-        with applications in biomedical imaging.
-        <span style="color:var(--ink)">Representative publications are listed below.</span>
-      </p>
-
+  <section class="section" id="publications">
+    <div><div class="section-title">Publications</div></div>
+    <div>
+      <p class="section-note">Representative work in OCT sidelobe suppression, spectral apodization, and coherent imaging.</p>
       <div class="papers">
+        <article class="paper">
+          <img class="paper-thumb" src="cover1.jpg" alt="Taylor-Hann hybrid window flowchart">
+          <div>
+            <div class="paper-title"><a href="https://doi.org/10.1016/j.optlastec.2026.115732" target="_blank" rel="noopener">A Low-complexity Taylor-based hybrid multi-window method for OCT sidelobe suppression</a></div>
+            <div class="authors"><strong>Haoming Zhu</strong>, Weiting Chen, Ruihan Ye, Jin He, Yilin Zhong, Zikun Qi, Qiaozhou Xiong, Yongsheng Huang, Linbo Liu, and Xin Ge</div>
+            <div class="venue"><em>Optics &amp; Laser Technology</em>, 2026 <span class="badge badge-q1">JCR Q1</span><span class="badge badge-journal">IF 5.0</span></div>
+            <div class="links"><a href="https://doi.org/10.1016/j.optlastec.2026.115732" target="_blank" rel="noopener">DOI</a></div>
+          </div>
+        </article>
 
-        <!-- ── 论文 1（已发表）────────────────────────────── -->
-        <div class="paper">
-          <div class="thumb">
-            <img src="cover1.jpg" alt="Taylor-Hann hybrid window flowchart" />
+        <article class="paper wip">
+          <img class="paper-thumb" src="cover2.jpg" alt="GM-RPM speckle suppression flowchart">
+          <div>
+            <div class="paper-title">GM-RPM: A Grouped-Min Random Phase Modulation Framework for Speckle Suppression in Coherent Imaging</div>
+            <div class="authors"><strong>Haoming Zhu</strong> and Xin Ge</div>
+            <div class="venue"><span class="badge badge-wip">In Preparation</span></div>
           </div>
-          <div class="pinfo">
-            <!-- 论文标题：点击跳转 DOI -->
-            <div class="ptitle">
-              <a href="https://doi.org/10.1016/j.optlastec.2026.115732" target="_blank">
-                A Low-complexity Taylor-based hybrid multi-window method for OCT sidelobe suppression
-              </a>
-            </div>
-            <!-- 作者顺序：自己用 <strong> 加粗，其余正常显示
-                 原始作者标注含单位上标(a,b,c,d)和通讯作者星号(*)，这里全部去掉，只留姓名 -->
-            <div class="pauthors">
-              <strong>Haoming Zhu</strong>, Weiting Chen, Ruihan Ye, Jin He, Yilin Zhong,
-              Zikun Qi, Qiaozhou Xiong, Yongsheng Huang, Linbo Liu, and Xin Ge
-            </div>
-            <!-- 期刊信息 + 质量 badge -->
-            <div class="pvenue">
-              <em>Optics &amp; Laser Technology</em>, 2026
-              <span class="badge badge-q1">JCR Q1</span>
-              <span class="badge badge-jnl">IF 5.0</span>
-            </div>
-            <!-- 链接：DOI 已确认有效；PDF 有了之后把 # 换成实际链接 -->
-            <div class="plinks">
-              <a href="https://doi.org/10.1016/j.optlastec.2026.115732" target="_blank">[DOI]</a>
-              <a href="#">[PDF]</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- ── 论文 2（准备中）──────────────────────────────
-             整行显示为灰色半透明，不可点击
-             投出去并接收后：删掉 class 里的 wip，补充期刊和链接 -->
-        <div class="paper wip" aria-hidden="true">
-          <div class="thumb">
-            <img src="cover2.jpg" alt="GM-RPM speckle suppression flowchart" />
-          </div>
-          <div class="pinfo">
-            <div class="ptitle">
-              GM-RPM: A Grouped-Min Random Phase Modulation Framework
-              for Speckle Suppression in Coherent Imaging
-            </div>
-            <div class="pauthors">
-              <strong>Haoming Zhu</strong>, Xin Ge
-            </div>
-            <div class="pvenue">
-              <span class="badge badge-wip">In Preparation</span>
-            </div>
-          </div>
-        </div>
-
+        </article>
       </div>
-    </section>
+    </div>
+  </section>
 
-
-    <!-- ══════════════ 教育经历 ══════════════ -->
-    <section class="section" id="education">
-      <div class="label" data-en="Education" data-zh="教育经历">Education</div>
-      <div class="edu-rows">
-
-        <div class="edu-row">
-          <div class="edu-yr">
-            2023 – 2027
-            <!-- 校徽：放在年份下方，跟年份同属左侧这一栏 -->
-            <img src="sysu.jpg" alt="Sun Yat-sen University emblem" class="edu-logo" />
-          </div>
-          <div class="edu-d">
-            <strong data-en="B.Sc. in Physics" data-zh="物理学 学士">B.Sc. in Physics</strong>
-            <!-- 如需添加排名，改为：GPA 3.94 / 4.0 &ensp;·&ensp; Rank 12 / 50 -->
-            <span data-en="Sun Yat-sen University (Shenzhen) · GPA 3.94 / 4.0"
-                  data-zh="中山大学（深圳）· GPA 3.94 / 4.0">Sun Yat-sen University (Shenzhen) &ensp;·&ensp; GPA 3.94 / 4.0</span>
-          </div>
-        </div>
-
-        <!-- 录取研究生后取消注释并填写信息：
-        <div class="edu-row">
-          <div class="edu-yr">2027 –</div>
-          <div class="edu-d">
-            <strong>M.Sc. / Ph.D. in [field]</strong>
-            <span>[Institution]</span>
-          </div>
-        </div>
-        -->
-
+  <section class="section" id="news">
+    <div><div class="section-title">News</div></div>
+    <div>
+      <p class="section-note">Press coverage and institutional news related to my research.</p>
+      <div class="news-list">
+        <article class="news-item">
+          <div class="news-title"><a href="https://mp.weixin.qq.com/s/utmrA1f1dD4itM00w3lmJw" target="_blank" rel="noopener">Undergraduate innovation team publishes research in optical imaging</a></div>
+          <div class="news-meta">Sun Yat-sen University, School of Science / Official WeChat</div>
+          <div class="links"><a href="https://mp.weixin.qq.com/s/utmrA1f1dD4itM00w3lmJw" target="_blank" rel="noopener">Read article</a></div>
+        </article>
       </div>
-    </section>
-
-  </div>
-  <!-- /view-home -->
-
-
-  <!-- ══════════════ News 内容（默认隐藏，点击 News 标签后显示） ══════════════ -->
-  <div id="view-news" style="display:none;">
-
-    <section class="section" id="news">
-      <div class="label" data-en="News" data-zh="动态">News</div>
-      <p class="note"
-        data-en="Press coverage and feature stories about my research."
-        data-zh="关于我研究工作的媒体报道与专题报道。">
-        Press coverage and feature stories about my research.
-      </p>
-
-      <div class="papers">
-
-        <!-- ── 公众号报道 ────────────────────────────────── -->
-        <div class="paper">
-          <div class="pinfo">
-            <div class="ptitle">
-              <a href="https://mp.weixin.qq.com/s/utmrA1f1dD4itM00w3lmJw" target="_blank">
-                科研动态｜我院本科生创新创业项目团队在光学成像领域发表高水平成果
-                <span class="news-ext" aria-hidden="true">↗</span>
-              </a>
-            </div>
-            <div class="pvenue">
-              <span data-en="Sun Yat-sen University, School of Science — Official WeChat"
-                    data-zh="中山大学理学院 · 官方微信公众号">Sun Yat-sen University, School of Science — Official WeChat</span>
-              <span class="badge badge-jnl">WeChat</span>
-            </div>
-            <div class="plinks">
-              <a href="https://mp.weixin.qq.com/s/utmrA1f1dD4itM00w3lmJw" target="_blank"
-                 data-en="Read article →" data-zh="阅读全文 →">Read article →</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-  </div>
-  <!-- /view-news -->
-
-
-  <!-- ══════════════ 页脚 ══════════════ -->
-  <!-- 右侧 Source 链接指向仓库，方便别人查看源码（学术圈常见做法） -->
-  <footer>
-    <span data-en="Last updated June 2026" data-zh="最近更新：2026 年 6 月">Last updated June 2026</span>
-    <a href="https://github.com/Avalais27/Avalais27.github.io">Source</a>
-  </footer>
-
+    </div>
+  </section>
 </div>
+</main>
 
-<!-- ══════════════ 切换脚本 ══════════════
-     语言切换原理：纯文本节点用 data-en / data-zh 存中英文，
-     含链接等标签的节点用 data-en-html / data-zh-html 存整段 HTML，
-     点击按钮后按对应属性整体替换内容。
-     页面切换原理：Home/News 各对应一个容器 div，
-     点击按钮后用 display 属性互相切换显示。 -->
-<script>
-  function setLang(lang) {
-    document.querySelectorAll('[data-en]').forEach(function (el) {
-      el.textContent = lang === 'zh' ? el.getAttribute('data-zh') : el.getAttribute('data-en');
-    });
-    document.querySelectorAll('[data-en-html]').forEach(function (el) {
-      el.innerHTML = lang === 'zh' ? el.getAttribute('data-zh-html') : el.getAttribute('data-en-html');
-    });
-    document.querySelectorAll('.lang-btn[data-lang-btn]').forEach(function (btn) {
-      btn.classList.toggle('active', btn.getAttribute('data-lang-btn') === lang);
-    });
-    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
-  }
-
-  function setView(view) {
-    document.getElementById('view-home').style.display = view === 'home' ? '' : 'none';
-    document.getElementById('view-news').style.display = view === 'news' ? '' : 'none';
-    document.querySelectorAll('.lang-btn[data-view-btn]').forEach(function (btn) {
-      btn.classList.toggle('active', btn.getAttribute('data-view-btn') === view);
-    });
-  }
-</script>
-
+<footer>
+  <div class="footer-inner">
+    <span>Last updated July 2026</span>
+    <a href="https://github.com/Avalais27/Avalais27.github.io" target="_blank" rel="noopener">Source</a>
+  </div>
+</footer>
 </body>
 </html>
+```
