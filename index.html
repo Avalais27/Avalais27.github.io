@@ -1,46 +1,551 @@
-可以。下面是完整 HTML，直接替换原来的 `index.html` 内容即可。
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Haoming Zhu</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@500;600&display=swap" rel="stylesheet">
+
 <style>
-:root{--bg:#e6ebf1;--surface:#f8fafc;--surface2:#eef3f7;--ink:#161b22;--muted:#566170;--rule:#d5dde6;--nav:#162231;--navink:#f4f7fa;--blue:#245f9f;--blue2:#dbe8f5;--green:#2f6f4e;--green2:#dfeee5;--max:1160px}
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
-.topbar{position:sticky;top:0;z-index:20;background:var(--nav);border-bottom:1px solid rgba(255,255,255,.08)}
-.nav-inner{max-width:var(--max);min-height:74px;margin:0 auto;padding:0 28px;display:flex;align-items:center;justify-content:space-between;gap:28px}
-.brand{color:var(--navink);font-size:1.28rem;font-weight:700}.nav-links{display:flex;gap:30px;font-weight:500}.nav-links a{color:rgba(244,247,250,.82)}.nav-links a:hover,.nav-links a.active{color:var(--navink);text-decoration:none}
-.hero{min-height:410px;position:relative;overflow:hidden;background:#07111b;background-image:linear-gradient(90deg,rgba(7,17,27,.92),rgba(7,17,27,.42) 48%,rgba(7,17,27,.75)),url("cover1.jpg");background-size:cover;background-position:center;border-bottom:1px solid rgba(255,255,255,.1)}
-.hero:after{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(105deg,rgba(180,210,238,.055) 0,rgba(180,210,238,.055) 1px,transparent 1px,transparent 34px)}
-.hero-inner{position:relative;z-index:1;max-width:var(--max);min-height:410px;margin:0 auto;padding:82px 28px 76px;display:flex;align-items:flex-end}.hero-copy{max-width:700px;color:#f6f8fb}.hero-kicker{font-size:.88rem;font-weight:600;color:#a8c8e8;margin-bottom:14px}
-h1{font-family:"Source Serif 4",Georgia,serif;font-size:3.6rem;line-height:1.02;font-weight:600;margin-bottom:18px}.hero p{max-width:620px;color:rgba(246,248,251,.82);font-size:1.08rem}
-.main{background:var(--surface)}.profile-band,.section{max-width:var(--max);margin:0 auto;padding:0 28px;display:grid;grid-template-columns:280px minmax(0,1fr);gap:54px}.profile-card{transform:translateY(-86px)}
-.photo{width:100%;aspect-ratio:4/4.1;object-fit:cover;display:block;border:7px solid var(--surface);border-radius:4px;box-shadow:0 18px 42px rgba(10,20,32,.18);background:var(--surface2)}
-.profile-meta{padding:28px 8px 0}.profile-name{font-size:1.55rem;line-height:1.2;font-weight:700;margin-bottom:4px}.profile-role{color:var(--muted);font-size:1.02rem;margin-bottom:22px}.profile-links{display:flex;flex-direction:column;gap:10px;margin-bottom:26px;font-size:.96rem}.address{color:var(--muted);font-size:.95rem}
-.content{padding:72px 0 86px}section{scroll-margin-top:96px}.section{padding-bottom:82px}.section:last-child{padding-bottom:64px}.section-title{font-family:"Source Serif 4",Georgia,serif;font-size:2.4rem;line-height:1.1;font-weight:600}.section-note{color:var(--muted);font-size:1.02rem;max-width:760px;margin-bottom:28px}
-.about-text{max-width:760px;display:grid;gap:18px;font-size:1.02rem;color:#2a3038}.edu-block{margin-top:34px;padding-top:26px;border-top:1px solid var(--rule);display:grid;grid-template-columns:72px 1fr;gap:18px;align-items:center}.edu-logo{width:54px;height:54px;object-fit:contain}.edu-title{font-weight:600}.edu-meta{color:var(--muted);font-size:.95rem}
-.papers,.news-list{display:grid;gap:18px}.paper,.news-item{display:grid;grid-template-columns:180px 1fr;gap:22px;padding:22px;background:var(--surface2);border:1px solid var(--rule);border-radius:8px;transition:.18s}.paper:hover,.news-item:hover{border-color:#b6c5d6;background:#f2f6fa}.paper-thumb{width:100%;aspect-ratio:16/10;object-fit:contain;background:white;border:1px solid var(--rule);border-radius:4px}.paper-title,.news-title{font-weight:600;line-height:1.45;margin-bottom:8px}.paper-title a,.news-title a{color:var(--ink)}
-.authors,.venue,.news-meta{color:var(--muted);font-size:.92rem}.authors strong{color:var(--ink);font-weight:700}.venue{margin-top:8px;display:flex;flex-wrap:wrap;gap:7px;align-items:center}.links{margin-top:12px;display:flex;gap:14px;font-size:.9rem;font-weight:500}.badge{display:inline-flex;align-items:center;min-height:22px;padding:2px 7px;border-radius:4px;font-size:.76rem;font-weight:600}.badge-q1{color:var(--green);background:var(--green2)}.badge-journal{color:var(--blue);background:var(--blue2)}.badge-wip{color:#6e7480;background:#e2e6eb}.paper.wip{opacity:.72}.news-item{grid-template-columns:1fr}
-footer{background:#dbe2ea;border-top:1px solid var(--rule)}.footer-inner{max-width:var(--max);margin:0 auto;padding:26px 28px;display:flex;justify-content:space-between;gap:20px;color:var(--muted);font-size:.9rem}
-@media(max-width:860px){.nav-inner{min-height:68px;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px}.nav-links{gap:18px;font-size:.92rem}h1{font-size:2.55rem}.hero,.hero-inner{min-height:360px}.profile-band,.section{grid-template-columns:1fr;gap:28px}.profile-card{transform:translateY(-64px);max-width:260px}.content{padding-top:20px}.section{padding-bottom:64px}}
-@media(max-width:640px){.nav-inner,.hero-inner,.profile-band,.section,.footer-inner{padding-left:20px;padding-right:20px}.nav-links{width:100%;justify-content:space-between}.hero,.hero-inner{min-height:330px}.hero-inner{padding-top:58px;padding-bottom:54px}h1{font-size:2.2rem}.paper{grid-template-columns:1fr}.footer-inner{flex-direction:column}}
+:root {
+  --bg: #e6ebf1;
+  --surface: #f8fafc;
+  --surface2: #eef3f7;
+  --ink: #161b22;
+  --muted: #566170;
+  --rule: #d5dde6;
+  --nav: #162231;
+  --navink: #f4f7fa;
+  --blue: #245f9f;
+  --blue2: #dbe8f5;
+  --green: #2f6f4e;
+  --green2: #dfeee5;
+  --max: 1160px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--nav);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.nav-inner {
+  max-width: var(--max);
+  min-height: 74px;
+  margin: 0 auto;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.brand {
+  color: var(--navink);
+  font-size: 1.28rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  font-weight: 500;
+}
+
+.nav-links a {
+  color: rgba(244,247,250,.78);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--navink);
+  text-decoration: none;
+}
+
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+}
+
+.lang-toggle button {
+  font-family: inherit;
+  font-size: .82rem;
+  font-weight: 600;
+  color: rgba(244,247,250,.72);
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.lang-toggle button.active {
+  color: var(--nav);
+  background: var(--navink);
+}
+
+.hero {
+  min-height: 430px;
+  position: relative;
+  overflow: hidden;
+  background-color: #07111b;
+  background-image:
+    linear-gradient(90deg, rgba(7,17,27,.82), rgba(7,17,27,.34) 52%, rgba(7,17,27,.62)),
+    url("background.jpg");
+  background-size: cover;
+  background-position: center;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    105deg,
+    rgba(180,210,238,.045) 0,
+    rgba(180,210,238,.045) 1px,
+    transparent 1px,
+    transparent 34px
+  );
+  pointer-events: none;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max);
+  min-height: 430px;
+  margin: 0 auto;
+  padding: 70px 28px 112px;
+  display: flex;
+  align-items: center;
+}
+
+.hero-copy {
+  max-width: 700px;
+  color: #f6f8fb;
+}
+
+.hero-kicker {
+  font-size: .9rem;
+  font-weight: 700;
+  color: #bdd8f2;
+  margin-bottom: 14px;
+}
+
+h1 {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 3.65rem;
+  line-height: 1.02;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.hero p {
+  max-width: 650px;
+  color: rgba(246,248,251,.9);
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+
+.main {
+  background: var(--surface);
+}
+
+.profile-band,
+.section {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 28px;
+  display: grid;
+  grid-template-columns: 280px minmax(0,1fr);
+  gap: 54px;
+}
+
+.profile-card {
+  transform: translateY(-48px);
+}
+
+.photo {
+  width: 100%;
+  aspect-ratio: 4 / 4.1;
+  object-fit: cover;
+  display: block;
+  border: 7px solid var(--surface);
+  border-radius: 4px;
+  box-shadow: 0 18px 42px rgba(10,20,32,.18);
+  background: var(--surface2);
+}
+
+.profile-meta {
+  padding: 28px 8px 0;
+}
+
+.profile-name {
+  font-size: 1.55rem;
+  line-height: 1.2;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.profile-role {
+  color: var(--muted);
+  font-size: 1.02rem;
+  margin-bottom: 22px;
+}
+
+.profile-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 26px;
+  font-size: .96rem;
+}
+
+.address {
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+.content {
+  padding: 78px 0 86px;
+}
+
+section {
+  scroll-margin-top: 96px;
+}
+
+.section {
+  padding-bottom: 82px;
+}
+
+.section:last-child {
+  padding-bottom: 64px;
+}
+
+.section-title {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 2.4rem;
+  line-height: 1.1;
+  font-weight: 600;
+}
+
+.section-note {
+  color: var(--muted);
+  font-size: 1.02rem;
+  max-width: 760px;
+  margin-bottom: 28px;
+}
+
+.about-text {
+  max-width: 760px;
+  display: grid;
+  gap: 18px;
+  font-size: 1.02rem;
+  color: #2a3038;
+}
+
+.edu-block {
+  margin-top: 34px;
+  padding-top: 26px;
+  border-top: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 18px;
+  align-items: center;
+}
+
+.edu-logo {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+}
+
+.edu-title {
+  font-weight: 600;
+}
+
+.edu-meta {
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+.papers,
+.news-list {
+  display: grid;
+  gap: 18px;
+}
+
+.paper,
+.news-item {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 22px;
+  padding: 22px;
+  background: var(--surface2);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.paper:hover,
+.news-item:hover {
+  border-color: #b6c5d6;
+  background: #f2f6fa;
+}
+
+.paper-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+  background: white;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+.paper-title,
+.news-title {
+  font-weight: 600;
+  line-height: 1.45;
+  margin-bottom: 8px;
+}
+
+.paper-title a,
+.news-title a {
+  color: var(--ink);
+}
+
+.authors,
+.venue,
+.news-meta {
+  color: var(--muted);
+  font-size: .92rem;
+}
+
+.authors strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.venue {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  align-items: center;
+}
+
+.links {
+  margin-top: 12px;
+  display: flex;
+  gap: 14px;
+  font-size: .9rem;
+  font-weight: 500;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: .76rem;
+  font-weight: 600;
+}
+
+.badge-q1 {
+  color: var(--green);
+  background: var(--green2);
+}
+
+.badge-journal {
+  color: var(--blue);
+  background: var(--blue2);
+}
+
+.badge-wip {
+  color: #6e7480;
+  background: #e2e6eb;
+}
+
+.paper.wip {
+  opacity: .72;
+}
+
+.news-item {
+  grid-template-columns: 1fr;
+}
+
+footer {
+  background: #dbe2ea;
+  border-top: 1px solid var(--rule);
+}
+
+.footer-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 26px 28px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+@media (max-width: 860px) {
+  .nav-inner {
+    min-height: 68px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .nav-right {
+    width: 100%;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .nav-links {
+    gap: 18px;
+    font-size: .92rem;
+  }
+
+  h1 {
+    font-size: 2.55rem;
+  }
+
+  .hero,
+  .hero-inner {
+    min-height: 380px;
+  }
+
+  .hero-inner {
+    padding-bottom: 92px;
+  }
+
+  .profile-band,
+  .section {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .profile-card {
+    transform: translateY(-42px);
+    max-width: 260px;
+  }
+
+  .content {
+    padding-top: 20px;
+  }
+
+  .section {
+    padding-bottom: 64px;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav-inner,
+  .hero-inner,
+  .profile-band,
+  .section,
+  .footer-inner {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .nav-right {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero,
+  .hero-inner {
+    min-height: 360px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  .paper {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+  }
+}
 </style>
 </head>
+
 <body>
 <header class="topbar">
   <div class="nav-inner">
     <a class="brand" href="#home">Haoming Zhu</a>
-    <nav class="nav-links" aria-label="Main navigation">
-      <a class="active" href="#home">Home</a>
-      <a href="#publications">Publications</a>
-      <a href="#news">News</a>
-    </nav>
+
+    <div class="nav-right">
+      <nav class="nav-links" aria-label="Main navigation">
+        <a class="active" href="#home" data-en="Home" data-zh="主页">Home</a>
+        <a href="#publications" data-en="Publications" data-zh="论文">Publications</a>
+        <a href="#news" data-en="News" data-zh="动态">News</a>
+      </nav>
+
+      <div class="lang-toggle" aria-label="Language toggle">
+        <button type="button" class="active" data-lang="en">EN</button>
+        <button type="button" data-lang="zh">中文</button>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -48,9 +553,19 @@ footer{background:#dbe2ea;border-top:1px solid var(--rule)}.footer-inner{max-wid
 <section class="hero" id="home">
   <div class="hero-inner">
     <div class="hero-copy">
-      <div class="hero-kicker">Computational Optical Imaging / OCT Signal Processing</div>
+      <div class="hero-kicker"
+        data-en="Computational Optical Imaging / OCT Signal Processing"
+        data-zh="计算光学成像 / OCT 信号处理">
+        Computational Optical Imaging / OCT Signal Processing
+      </div>
+
       <h1>Haoming Zhu</h1>
-      <p>Undergraduate researcher at Sun Yat-sen University working on computational optical imaging, frequency-domain signal processing, and biomedical photonics.</p>
+
+      <p
+        data-en="Undergraduate researcher at Sun Yat-sen University working on computational optical imaging, frequency-domain signal processing, and biomedical photonics."
+        data-zh="中山大学本科生，研究方向包括计算光学成像、频域信号处理与生物医学光子学。">
+        Undergraduate researcher at Sun Yat-sen University working on computational optical imaging, frequency-domain signal processing, and biomedical photonics.
+      </p>
     </div>
   </div>
 </section>
@@ -59,27 +574,62 @@ footer{background:#dbe2ea;border-top:1px solid var(--rule)}.footer-inner{max-wid
   <div class="profile-band">
     <aside class="profile-card">
       <img class="photo" src="photo.jpg" alt="Haoming Zhu">
+
       <div class="profile-meta">
         <div class="profile-name">Haoming Zhu</div>
-        <div class="profile-role">Undergraduate Researcher</div>
+
+        <div class="profile-role"
+          data-en="Undergraduate Researcher"
+          data-zh="本科生研究者">
+          Undergraduate Researcher
+        </div>
+
         <div class="profile-links">
           <span>zhuhm27 [at] mail2.sysu.edu.cn</span>
           <a href="https://github.com/Avalais27" target="_blank" rel="noopener">GitHub</a>
         </div>
-        <div class="address">School of Science<br>Sun Yat-sen University<br>Shenzhen Campus<br>Class of 2027</div>
+
+        <div class="address"
+          data-en-html="School of Science<br>Sun Yat-sen University<br>Shenzhen Campus<br>Class of 2027"
+          data-zh-html="理学院<br>中山大学深圳校区<br>2027 届">
+          School of Science<br>Sun Yat-sen University<br>Shenzhen Campus<br>Class of 2027
+        </div>
       </div>
     </aside>
 
     <section class="content" aria-labelledby="about-title">
-      <div class="section-title" id="about-title">About</div>
+      <div class="section-title" id="about-title" data-en="About" data-zh="简介">About</div>
+
       <div class="about-text">
-        <p>I work on computational optical imaging, with a focus on signal processing algorithms for <a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank" rel="noopener">optical coherence tomography</a> (OCT). My current work includes spectral windowing for sidelobe suppression and statistical frameworks for speckle noise reduction.</p>
-        <p>My research sits at the intersection of Fourier optics, computational imaging, and biomedical photonics. I am especially interested in physics-informed reconstruction pipelines and robust image formation methods for biomedical imaging systems.</p>
+        <p
+          data-en-html='I work on computational optical imaging, with a focus on signal processing algorithms for <a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank" rel="noopener">optical coherence tomography</a> (OCT). My current work includes spectral windowing for sidelobe suppression and statistical frameworks for speckle noise reduction.'
+          data-zh-html='我的研究方向是计算光学成像，重点关注 <a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank" rel="noopener">光学相干层析成像</a>（OCT）中的信号处理算法。目前的工作包括用于旁瓣抑制的谱窗方法，以及用于散斑噪声抑制的统计框架。'>
+          I work on computational optical imaging, with a focus on signal processing algorithms for
+          <a href="https://en.wikipedia.org/wiki/Optical_coherence_tomography" target="_blank" rel="noopener">optical coherence tomography</a>
+          (OCT). My current work includes spectral windowing for sidelobe suppression and statistical frameworks for speckle noise reduction.
+        </p>
+
+        <p
+          data-en="My research sits at the intersection of Fourier optics, computational imaging, and biomedical photonics. I am especially interested in physics-informed reconstruction pipelines and robust image formation methods for biomedical imaging systems."
+          data-zh="我的研究处在傅里叶光学、计算成像与生物医学光子学的交叉处。我尤其关注面向生物医学成像系统的物理约束重建流程和鲁棒图像形成方法。">
+          My research sits at the intersection of Fourier optics, computational imaging, and biomedical photonics. I am especially interested in physics-informed reconstruction pipelines and robust image formation methods for biomedical imaging systems.
+        </p>
+
         <div class="edu-block">
           <img class="edu-logo" src="sysu.jpg" alt="Sun Yat-sen University emblem">
           <div>
-            <div class="edu-title">B.Sc. in Physics, 2023-2027</div>
-            <div class="edu-meta">Sun Yat-sen University (Shenzhen) / GPA 3.94 / 4.0<br>Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank" rel="noopener">Prof. Xin Ge</a></div>
+            <div class="edu-title"
+              data-en="B.Sc. in Physics, 2023-2027"
+              data-zh="物理学学士，2023-2027">
+              B.Sc. in Physics, 2023-2027
+            </div>
+
+            <div class="edu-meta"
+              data-en-html='Sun Yat-sen University (Shenzhen) / GPA 3.94 / 4.0<br>Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank" rel="noopener">Prof. Xin Ge</a>'
+              data-zh-html='中山大学（深圳）/ GPA 3.94 / 4.0<br>指导老师：<a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank" rel="noopener">葛昕教授</a>'>
+              Sun Yat-sen University (Shenzhen) / GPA 3.94 / 4.0<br>
+              Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank" rel="noopener">Prof. Xin Ge</a>
+            </div>
           </div>
         </div>
       </div>
@@ -87,26 +637,60 @@ footer{background:#dbe2ea;border-top:1px solid var(--rule)}.footer-inner{max-wid
   </div>
 
   <section class="section" id="publications">
-    <div><div class="section-title">Publications</div></div>
     <div>
-      <p class="section-note">Representative work in OCT sidelobe suppression, spectral apodization, and coherent imaging.</p>
+      <div class="section-title" data-en="Publications" data-zh="论文">Publications</div>
+    </div>
+
+    <div>
+      <p class="section-note"
+        data-en="Representative work in OCT sidelobe suppression, spectral apodization, and coherent imaging."
+        data-zh="以下是我在 OCT 旁瓣抑制、谱域加窗和相干成像方向的代表性工作。">
+        Representative work in OCT sidelobe suppression, spectral apodization, and coherent imaging.
+      </p>
+
       <div class="papers">
         <article class="paper">
           <img class="paper-thumb" src="cover1.jpg" alt="Taylor-Hann hybrid window flowchart">
+
           <div>
-            <div class="paper-title"><a href="https://doi.org/10.1016/j.optlastec.2026.115732" target="_blank" rel="noopener">A Low-complexity Taylor-based hybrid multi-window method for OCT sidelobe suppression</a></div>
-            <div class="authors"><strong>Haoming Zhu</strong>, Weiting Chen, Ruihan Ye, Jin He, Yilin Zhong, Zikun Qi, Qiaozhou Xiong, Yongsheng Huang, Linbo Liu, and Xin Ge</div>
-            <div class="venue"><em>Optics &amp; Laser Technology</em>, 2026 <span class="badge badge-q1">JCR Q1</span><span class="badge badge-journal">IF 5.0</span></div>
-            <div class="links"><a href="https://doi.org/10.1016/j.optlastec.2026.115732" target="_blank" rel="noopener">DOI</a></div>
+            <div class="paper-title">
+              <a href="https://doi.org/10.1016/j.optlastec.2026.115732" target="_blank" rel="noopener">
+                A Low-complexity Taylor-based hybrid multi-window method for OCT sidelobe suppression
+              </a>
+            </div>
+
+            <div class="authors">
+              <strong>Haoming Zhu</strong>, Weiting Chen, Ruihan Ye, Jin He, Yilin Zhong,
+              Zikun Qi, Qiaozhou Xiong, Yongsheng Huang, Linbo Liu, and Xin Ge
+            </div>
+
+            <div class="venue">
+              <em>Optics &amp; Laser Technology</em>, 2026
+              <span class="badge badge-q1">JCR Q1</span>
+              <span class="badge badge-journal">IF 5.0</span>
+            </div>
+
+            <div class="links">
+              <a href="https://doi.org/10.1016/j.optlastec.2026.115732" target="_blank" rel="noopener">DOI</a>
+            </div>
           </div>
         </article>
 
         <article class="paper wip">
           <img class="paper-thumb" src="cover2.jpg" alt="GM-RPM speckle suppression flowchart">
+
           <div>
-            <div class="paper-title">GM-RPM: A Grouped-Min Random Phase Modulation Framework for Speckle Suppression in Coherent Imaging</div>
-            <div class="authors"><strong>Haoming Zhu</strong> and Xin Ge</div>
-            <div class="venue"><span class="badge badge-wip">In Preparation</span></div>
+            <div class="paper-title">
+              GM-RPM: A Grouped-Min Random Phase Modulation Framework for Speckle Suppression in Coherent Imaging
+            </div>
+
+            <div class="authors">
+              <strong>Haoming Zhu</strong> and Xin Ge
+            </div>
+
+            <div class="venue">
+              <span class="badge badge-wip">In Preparation</span>
+            </div>
           </div>
         </article>
       </div>
@@ -114,14 +698,40 @@ footer{background:#dbe2ea;border-top:1px solid var(--rule)}.footer-inner{max-wid
   </section>
 
   <section class="section" id="news">
-    <div><div class="section-title">News</div></div>
     <div>
-      <p class="section-note">Press coverage and institutional news related to my research.</p>
+      <div class="section-title" data-en="News" data-zh="动态">News</div>
+    </div>
+
+    <div>
+      <p class="section-note"
+        data-en="Press coverage and institutional news related to my research."
+        data-zh="与我的研究工作相关的学院报道和新闻动态。">
+        Press coverage and institutional news related to my research.
+      </p>
+
       <div class="news-list">
         <article class="news-item">
-          <div class="news-title"><a href="https://mp.weixin.qq.com/s/utmrA1f1dD4itM00w3lmJw" target="_blank" rel="noopener">Undergraduate innovation team publishes research in optical imaging</a></div>
-          <div class="news-meta">Sun Yat-sen University, School of Science / Official WeChat</div>
-          <div class="links"><a href="https://mp.weixin.qq.com/s/utmrA1f1dD4itM00w3lmJw" target="_blank" rel="noopener">Read article</a></div>
+          <div class="news-title">
+            <a href="https://mp.weixin.qq.com/s/utmrA1f1dD4itM00w3lmJw" target="_blank" rel="noopener"
+              data-en="Undergraduate innovation team publishes research in optical imaging"
+              data-zh="我院本科生创新创业项目团队在光学成像领域发表高水平成果">
+              Undergraduate innovation team publishes research in optical imaging
+            </a>
+          </div>
+
+          <div class="news-meta"
+            data-en="Sun Yat-sen University, School of Science / Official WeChat"
+            data-zh="中山大学理学院 / 官方微信公众号">
+            Sun Yat-sen University, School of Science / Official WeChat
+          </div>
+
+          <div class="links">
+            <a href="https://mp.weixin.qq.com/s/utmrA1f1dD4itM00w3lmJw" target="_blank" rel="noopener"
+              data-en="Read article"
+              data-zh="阅读全文">
+              Read article
+            </a>
+          </div>
         </article>
       </div>
     </div>
@@ -131,10 +741,35 @@ footer{background:#dbe2ea;border-top:1px solid var(--rule)}.footer-inner{max-wid
 
 <footer>
   <div class="footer-inner">
-    <span>Last updated July 2026</span>
+    <span data-en="Last updated July 2026" data-zh="最近更新：2026 年 7 月">Last updated July 2026</span>
     <a href="https://github.com/Avalais27/Avalais27.github.io" target="_blank" rel="noopener">Source</a>
   </div>
 </footer>
+
+<script>
+function setLang(lang) {
+  document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
+
+  document.querySelectorAll("[data-en]").forEach(function (el) {
+    el.textContent = lang === "zh" ? el.getAttribute("data-zh") : el.getAttribute("data-en");
+  });
+
+  document.querySelectorAll("[data-en-html]").forEach(function (el) {
+    el.innerHTML = lang === "zh" ? el.getAttribute("data-zh-html") : el.getAttribute("data-en-html");
+  });
+
+  document.querySelectorAll(".lang-toggle button").forEach(function (btn) {
+    btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
+  });
+}
+
+document.querySelectorAll(".lang-toggle button").forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    setLang(btn.getAttribute("data-lang"));
+  });
+});
+
+setLang("en");
+</script>
 </body>
 </html>
-```
