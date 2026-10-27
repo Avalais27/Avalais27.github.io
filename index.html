@@ -308,6 +308,23 @@ section {
   object-fit: contain;
 }
 
+.edu-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--surface2);
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.honors-block {
+  margin-top: 16px;
+  padding-top: 26px;
+  border-top: 1px solid var(--rule);
+}
+
 .edu-title {
   font-weight: 600;
 }
@@ -616,6 +633,24 @@ footer {
         </p>
 
         <div class="edu-block">
+          <div class="edu-logo edu-initials" aria-hidden="true">PKU</div>
+          <div>
+            <div class="edu-title"
+              data-en="Incoming Ph.D. in Biomedical Engineering, 2027–2032 (expected)"
+              data-zh="生物医学工程博士（拟入学），2027—2032（预计）">
+              Incoming Ph.D. in Biomedical Engineering, 2027–2032 (expected)
+            </div>
+
+            <div class="edu-meta"
+              data-en-html="Department of Biomedical Engineering<br>School of Future Technology, Peking University"
+              data-zh-html="北京大学未来技术学院<br>生物医学工程系">
+              Department of Biomedical Engineering<br>
+              School of Future Technology, Peking University
+            </div>
+          </div>
+        </div>
+
+        <div class="edu-block">
           <img class="edu-logo" src="sysu.jpg" alt="Sun Yat-sen University emblem">
           <div>
             <div class="edu-title"
@@ -625,12 +660,20 @@ footer {
             </div>
 
             <div class="edu-meta"
-              data-en-html='Sun Yat-sen University (Shenzhen) / GPA 3.94 / 4.0<br>Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank" rel="noopener">Prof. Xin Ge</a>'
-              data-zh-html='中山大学（深圳）/ GPA 3.94 / 4.0<br>指导老师：<a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank" rel="noopener">葛昕教授</a>'>
-              Sun Yat-sen University (Shenzhen) / GPA 3.94 / 4.0<br>
+              data-en-html='Sun Yat-sen University (Shenzhen) / GPA 4.04 / 5.0<br>Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank" rel="noopener">Prof. Xin Ge</a>'
+              data-zh-html='中山大学（深圳）/ GPA 4.04 / 5.0<br>指导老师：<a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank" rel="noopener">葛昕教授</a>'>
+              Sun Yat-sen University (Shenzhen) / GPA 4.04 / 5.0<br>
               Advised by <a href="https://science.sysu.edu.cn/teacher/GeXin" target="_blank" rel="noopener">Prof. Xin Ge</a>
             </div>
           </div>
+        </div>
+        <div class="honors-block">
+          <div class="edu-title" data-en="Honors" data-zh="奖励荣誉">Honors</div>
+          <p class="edu-meta"
+            data-en="First-Class Outstanding Student Scholarship, Sun Yat-sen University, 2025–2026"
+            data-zh="中山大学优秀学生奖学金（一等奖），2025—2026">
+            First-Class Outstanding Student Scholarship, Sun Yat-sen University, 2025–2026
+          </p>
         </div>
       </div>
     </section>
@@ -741,7 +784,7 @@ footer {
 
 <footer>
   <div class="footer-inner">
-    <span data-en="Last updated July 2026" data-zh="最近更新：2026 年 7 月">Last updated July 2026</span>
+    <span data-en="Last updated October 2026" data-zh="最近更新：2026 年 10 月">Last updated October 2026</span>
     <a href="https://github.com/Avalais27/Avalais27.github.io" target="_blank" rel="noopener">Source</a>
   </div>
 </footer>
